@@ -154,7 +154,7 @@ class Scene:
 
 
 class Recorder:
-    def __init__(self, scene, cam="front", w=480, h=360):
+    def __init__(self, scene, cam="front", w=320, h=240):
         self.s, self.cam = scene, cam
         self.r = mujoco.Renderer(scene.model, h, w)
         self.frames = []
@@ -163,11 +163,18 @@ class Recorder:
         self.r.update_scene(self.s.data, camera=self.cam)
         self.frames.append(self.r.render())
 
-    def save(self, path, fps=15, every=2):
-        import imageio
-        Path(path).parent.mkdir(parents=True, exist_ok=True)
-        imageio.mimsave(path, self.frames[::every], duration=1000 * every / 30 / 1, loop=0) if str(path).endswith(".gif") \
-            else imageio.mimsave(path, self.frames, fps=30)
+    def save(self, path, fps=12):
+        """mp4 via imageio, or a compact GIF (shared 64-colour palette via ffmpeg)."""
+        import imageio, subprocess, tempfile
+        path = Path(path); path.parent.mkdir(parents=True, exist_ok=True)
+        if path.suffix != ".gif":
+            return imageio.mimsave(path, self.frames, fps=30)
+        with tempfile.TemporaryDirectory() as td:
+            tmp = Path(td) / "v.mp4"
+            imageio.mimsave(tmp, self.frames, fps=30, macro_block_size=1)
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(tmp), "-vf",
+                            f"fps={fps},split[a][b];[a]palettegen=max_colors=64:stats_mode=diff[p];"
+                            "[b][p]paletteuse=dither=bayer:bayer_scale=4:diff_mode=rectangle", str(path)], check=True)
 
 
 if __name__ == "__main__":

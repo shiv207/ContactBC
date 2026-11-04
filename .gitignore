@@ -12,3 +12,5 @@ outputs/*
 !outputs/results.json
 checkpoints/
 *.pt
+!outputs/replay_results.json
+!outputs/augment_summary.json

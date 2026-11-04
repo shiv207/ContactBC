@@ -147,7 +147,7 @@ def smooth(s):
 
 
 def build_plans(wrist_source="egodex"):
-    takes = sorted(p.stem for p in PROC.glob("ep*.npz"))
+    takes = sorted(p.stem for p in PROC.glob("*.npz"))
     return [Plan(load_take(t, wrist_source)) for t in takes]
 
 

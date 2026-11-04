@@ -82,4 +82,5 @@ if __name__ == "__main__":
                    fail_grasp=sum(not r["grasp_held"] for r in log),
                    fail_place=sum(r["grasp_held"] and not r["placed"] for r in log))
     json.dump(dict(summary=summary, trials=log), open(OUT / "augment_log.json", "w"), indent=1)
+    json.dump(summary, open(ROOT / "outputs/augment_summary.json", "w"), indent=1)
     print(json.dumps(summary, indent=1))

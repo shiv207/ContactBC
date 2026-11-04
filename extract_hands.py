@@ -66,10 +66,13 @@ def fill_and_smooth(x, valid, win=9, poly=3):
 def load_egodex(ep):
     cols = ["episode_index", "frame_index", "camera_intrinsics", "observation.state.camera"] + \
            [f"observation.state.right{j}" for j in EGODEX_21]
+    t = None
     for f in sorted(PARQ.glob("*.parquet")):
         t = pq.read_table(f, columns=cols, filters=[("episode_index", "=", ep)]).to_pandas()
         if len(t):
             break
+    if t is None or not len(t):
+        return None                                        # your own video: no ground truth
     t = t.sort_values("frame_index")
     M = lambda c: np.stack([np.stack(list(v)) for v in t[c]]).astype(float)   # (T,4,4)
     K = np.stack(list(t["camera_intrinsics"].iloc[0])).astype(float)
@@ -114,8 +117,13 @@ def wrist_from_pnp(world, img, valid, K):
 
 
 def process(video, ep):
-    gt = load_egodex(ep)
+    gt = load_egodex(ep) if ep >= 0 else None
     world, img, valid, (W, H), frames = run_mediapipe(video)
+    own = gt is None
+    if own:      # phone video: assume ~60 deg HFOV, static, roughly level camera; no ground truth
+        n = len(world); nan = np.full((n, 4, 4), np.nan)
+        gt = dict(K=np.array([[0.87 * W, 0, W / 2], [0, 0.87 * W, H / 2], [0, 0, 1]]) * [[1920 / W], [1920 / W], [1]],
+                  cam=np.tile(np.diag([1., -1, -1, 1]), (n, 1, 1)), wrist=nan, joints=np.full((n, 21, 3), np.nan))
     T = min(len(world), len(gt["cam"]))
     world, img, valid = world[:T], img[:T], valid[:T]
     K = gt["K"].copy(); K[:2] *= W / 1920.0                       # intrinsics for the resized take
@@ -144,7 +152,8 @@ def process(video, ep):
     Tw2c = np.linalg.inv(Tc)
     pc = np.einsum("tij,tj->ti", Tw2c[:, :3, :3], gt["wrist"][:T, :3, 3]) + Tw2c[:, :3, 3]
     uv = (pc @ K.T); uv = uv[:, :2] / uv[:, 2:]
-    stats = dict(take=video.stem, episode=int(ep), frames=int(T), detect_rate=float(valid.mean()),
+    stats = dict(take=video.stem, episode=int(ep), frames=int(T), detect_rate=float(valid.mean())) if own else \
+        dict(take=video.stem, episode=int(ep), frames=int(T), detect_rate=float(valid.mean()),
                  wrist_px_err=float(np.median(np.linalg.norm(uv[valid] - img[valid, 0], axis=1))) if valid.any() else None,
                  wrist_3d_err_m=float(np.median(np.linalg.norm(wrist_mp - wrist_gt, axis=1))),
                  wrist_rel_err_m=float(np.median(np.linalg.norm((wrist_mp - wrist_mp[0]) - (wrist_gt - wrist_gt[0]), axis=1))),
@@ -174,7 +183,8 @@ def overlay(frames, img, valid, uv_gt, path):
 
 if __name__ == "__main__":
     stats = []
-    for v in sorted(TAKES.glob("ep*.mp4")):
-        stats.append(process(v, int(v.stem[2:])))
+    for v in sorted(TAKES.glob("*.mp4")):          # epNNN.mp4 = EgoDex episode NNN; anything else = own video
+        ep = int(v.stem[2:]) if v.stem.startswith("ep") and v.stem[2:].isdigit() else -1
+        stats.append(process(v, ep))
         print("  ", {k: round(x, 3) if isinstance(x, float) else x for k, x in stats[-1].items()})
     json.dump(stats, open(OUT / "extract_stats.json", "w"), indent=1)

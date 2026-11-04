@@ -1,0 +1,65 @@
+{
+ "ep016": {
+  "success": true,
+  "grasp_held": true,
+  "placed": true,
+  "held_frac": 0.895,
+  "lift": 0.036,
+  "dist": 0.012,
+  "upright": 1.0
+ },
+ "ep062": {
+  "success": false,
+  "grasp_held": true,
+  "placed": false,
+  "held_frac": 1.0,
+  "lift": 0.082,
+  "dist": 0.062,
+  "upright": -0.076
+ },
+ "ep128": {
+  "success": true,
+  "grasp_held": true,
+  "placed": true,
+  "held_frac": 1.0,
+  "lift": 0.037,
+  "dist": 0.009,
+  "upright": 1.0
+ },
+ "ep202": {
+  "success": false,
+  "grasp_held": true,
+  "placed": false,
+  "held_frac": 1.0,
+  "lift": 0.077,
+  "dist": 0.163,
+  "upright": 1.0
+ },
+ "ep217": {
+  "success": true,
+  "grasp_held": true,
+  "placed": true,
+  "held_frac": 1.0,
+  "lift": 0.137,
+  "dist": 0.006,
+  "upright": 1.0
+ },
+ "ep237": {
+  "success": false,
+  "grasp_held": true,
+  "placed": false,
+  "held_frac": 1.0,
+  "lift": 0.078,
+  "dist": 0.086,
+  "upright": 0.0
+ },
+ "ep270": {
+  "success": false,
+  "grasp_held": true,
+  "placed": false,
+  "held_frac": 1.0,
+  "lift": 0.043,
+  "dist": 0.03,
+  "upright": 0.003
+ }
+}

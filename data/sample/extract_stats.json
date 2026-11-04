@@ -1,0 +1,79 @@
+[
+ {
+  "take": "ep016",
+  "episode": 16,
+  "frames": 55,
+  "detect_rate": 0.9818181818181818,
+  "wrist_px_err": 56.956996208724505,
+  "wrist_3d_err_m": 0.23639756309433935,
+  "wrist_rel_err_m": 0.24302403439913392,
+  "finger_angle_mae_deg": 17.725843550956377,
+  "aperture_corr": -0.03952497907305061
+ },
+ {
+  "take": "ep062",
+  "episode": 62,
+  "frames": 97,
+  "detect_rate": 0.5257731958762887,
+  "wrist_px_err": 46.52045698108063,
+  "wrist_3d_err_m": 0.20449877999211669,
+  "wrist_rel_err_m": 0.7028969965924299,
+  "finger_angle_mae_deg": 22.568240704021267,
+  "aperture_corr": -0.21672570778746048
+ },
+ {
+  "take": "ep128",
+  "episode": 128,
+  "frames": 52,
+  "detect_rate": 0.7884615384615384,
+  "wrist_px_err": 20.193132306006053,
+  "wrist_3d_err_m": 0.18196851968059763,
+  "wrist_rel_err_m": 0.11240057619940971,
+  "finger_angle_mae_deg": 17.515469641804554,
+  "aperture_corr": 0.09465730426454576
+ },
+ {
+  "take": "ep202",
+  "episode": 202,
+  "frames": 59,
+  "detect_rate": 0.6271186440677966,
+  "wrist_px_err": 29.78969102373444,
+  "wrist_3d_err_m": 0.20954864505502369,
+  "wrist_rel_err_m": 0.5537665384444506,
+  "finger_angle_mae_deg": 26.754075698474622,
+  "aperture_corr": 0.3669121988059797
+ },
+ {
+  "take": "ep217",
+  "episode": 217,
+  "frames": 100,
+  "detect_rate": 1.0,
+  "wrist_px_err": 38.96451416806543,
+  "wrist_3d_err_m": 0.20678574970437902,
+  "wrist_rel_err_m": 0.14528430097114386,
+  "finger_angle_mae_deg": 22.58323690488031,
+  "aperture_corr": 0.5192842077124719
+ },
+ {
+  "take": "ep237",
+  "episode": 237,
+  "frames": 57,
+  "detect_rate": 0.5964912280701754,
+  "wrist_px_err": 47.1956819964392,
+  "wrist_3d_err_m": 0.17468407906488728,
+  "wrist_rel_err_m": 0.2449398176353186,
+  "finger_angle_mae_deg": 22.090120405232923,
+  "aperture_corr": 0.03483080040458522
+ },
+ {
+  "take": "ep270",
+  "episode": 270,
+  "frames": 69,
+  "detect_rate": 0.37681159420289856,
+  "wrist_px_err": 17.025062659159854,
+  "wrist_3d_err_m": 0.07911295093894112,
+  "wrist_rel_err_m": 0.14690939872581438,
+  "finger_angle_mae_deg": 34.20429448257491,
+  "aperture_corr": 0.304640904206404
+ }
+]

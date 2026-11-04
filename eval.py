@@ -18,13 +18,13 @@ EVAL_SEED = 999             # poses never used for data generation (augment uses
 _W = {}
 
 
-def _init(variant):
+def _init(variant, seed=0):
     import torch
     torch.set_num_threads(1)
     from scene import Scene
     from ik import ArmIK
     from train_bc import load_policy
-    _W["s"] = Scene(); _W["ik"] = ArmIK(_W["s"]); _W["pol"] = load_policy(variant)
+    _W["s"] = Scene(); _W["ik"] = ArmIK(_W["s"]); _W["pol"] = load_policy(variant, seed)
 
 
 def label_free(s, contact, cup):
@@ -47,9 +47,11 @@ def rollout(i, variant, gif=False):
     cup, co = sample_poses(np.random.default_rng(EVAL_SEED * 1000 + i))
     s.reset(cup, co, arm_q=home_q(s, ik))
     rec = Recorder(s) if gif else None
+    from train_bc import Ensembler
+    ens = Ensembler(pol)
     C, P = [], []
-    for _ in range(H):
-        a = s.clip_action(pol.act(obs_vec(s)))
+    for t in range(H):
+        a = s.clip_action(ens.act(obs_vec(s), t))
         s.step(a)
         C.append(s.cup_contacts()); P.append(s.cup_pos())
         if rec:
@@ -61,15 +63,15 @@ def rollout(i, variant, gif=False):
     return dict(i=i, cup=cup.round(3).tolist(), coaster=co.round(3).tolist(), **r)
 
 
-def evaluate(variant, n=50, workers=10):
-    with Pool(workers, initializer=_init, initargs=(variant,)) as pool:
+def evaluate(variant, seed=0, n=50, workers=10, gifs=True):
+    with Pool(workers, initializer=_init, initargs=(variant, seed)) as pool:
         res = pool.map(partial(rollout, variant=variant), range(n))
-    # GIFs for the first success and first failure
-    with Pool(1, initializer=_init, initargs=(variant,)) as pool:
-        for want in (True, False):
-            hit = next((r["i"] for r in res if r["success"] == want), None)
-            if hit is not None:
-                pool.apply(rollout, (hit, variant, True))
+    if gifs:                                   # GIFs for the first success and first failure
+        with Pool(1, initializer=_init, initargs=(variant, seed)) as pool:
+            for want in (True, False):
+                hit = next((r["i"] for r in res if r["success"] == want), None)
+                if hit is not None:
+                    pool.apply(rollout, (hit, variant, True))
     return res
 
 
@@ -77,20 +79,28 @@ if __name__ == "__main__":
     from train_bc import VARIANTS
     ap = argparse.ArgumentParser()
     ap.add_argument("--variants", nargs="+", default=list(VARIANTS))
+    ap.add_argument("--seeds", type=int, nargs="+", default=[0, 1, 2])
     ap.add_argument("-n", type=int, default=50)
     args = ap.parse_args()
-    table, all_res = [], {}
+    rows, all_res = [], {}
     for v in args.variants:
-        res = evaluate(v, args.n)
-        all_res[v] = res
-        k = lambda key: sum(r[key] for r in res)
-        table.append((v, k("success"), k("grasp_held"), k("placed"), len(res)))
-        print(f"{v:10s} success {k('success')}/{len(res)}  grasp {k('grasp_held')}  placed {k('placed')}", flush=True)
-    lines = ["| variant | data | contact-gated loss | success | grasp held | placed |", "|---|---|---|---|---|---|"]
-    for v, s_, g, p, n in table:
+        per_seed = []
+        for sd in args.seeds:
+            res = evaluate(v, sd, args.n, gifs=(sd == args.seeds[0]))
+            all_res[f"{v}_s{sd}"] = res
+            per_seed.append({k: sum(r[k] for r in res) / len(res) for k in ["success", "grasp_held", "placed"]})
+            print(f"{v:10s} seed {sd}: success {per_seed[-1]['success']:.0%}  grasp {per_seed[-1]['grasp_held']:.0%}"
+                  f"  placed {per_seed[-1]['placed']:.0%}", flush=True)
+        rows.append((v, per_seed))
+    f = lambda xs: f"{100 * np.mean(xs):.0f} ± {100 * np.std(xs):.0f}%"
+    lines = [f"Success over {args.n} held-out rollouts per seed, mean ± std over {len(args.seeds)} training seeds.", "",
+             "| variant | training data | contact-gated loss | success | grasp held | placed | per-seed success |",
+             "|---|---|---|---|---|---|---|"]
+    for v, ps in rows:
         src, cg = VARIANTS[v]
-        lines.append(f"| `{v}` | {'3 human replays' if src == 'demos' else '500 augmented'} | {'yes' if cg else 'no'} "
-                     f"| **{s_}/{n} ({s_ / n:.0%})** | {g}/{n} | {p}/{n} |")
+        lines.append(f"| `{v}` | {'3 direct human replays' if src == 'demos' else '500 augmented episodes'} "
+                     f"| {({'all': 'yes (all dims)', 'hand': 'yes (finger dims)'}).get(cg, 'no')} | **{f([p['success'] for p in ps])}** | {f([p['grasp_held'] for p in ps])} "
+                     f"| {f([p['placed'] for p in ps])} | {', '.join(str(round(args.n * p['success'])) + '/' + str(args.n) for p in ps)} |")
     (ROOT / "outputs/results.md").write_text("\n".join(lines) + "\n")
     json.dump(all_res, open(ROOT / "outputs/results.json", "w"), indent=1)
     print("\n".join(lines))
