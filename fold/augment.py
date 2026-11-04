@@ -2,6 +2,7 @@
 keep only verified folds (grasp held + folded + released)."""
 import os
 os.environ.setdefault("MUJOCO_GL", "egl")
+os.environ.setdefault("OMP_NUM_THREADS", "1")       # one BLAS thread per worker (else 20 workers oversubscribe)
 import argparse, json, sys
 from functools import partial
 from multiprocessing import Pool
@@ -28,7 +29,7 @@ def _trial(i, seed=0):
     xy, yaw = sample_pose(rng)
     ep = R.run_episode(R._W["s"], R._W["ik"], plan, xy, yaw)
     if ep["success"]:
-        np.savez_compressed(OUT / f"aug_{i:05d}.npz", **ep)
+        np.savez_compressed(OUT / f"aug_s{seed}_{i:05d}.npz", **ep)
     return dict(i=i, take=plan.name, success=bool(ep["success"]), corner_dist=round(float(ep["corner_dist"]), 3))
 
 
@@ -37,18 +38,23 @@ if __name__ == "__main__":
     ap.add_argument("--target", type=int, default=500)
     ap.add_argument("--max-trials", type=int, default=3000)
     ap.add_argument("--workers", type=int, default=20)
+    ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--resume", action="store_true", help="keep existing episodes, count them toward --target")
     args = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
-    for f in OUT.glob("aug_*.npz"):
-        f.unlink()
-    log, n_ok = [], 0
+    have = sorted(OUT.glob("aug_*.npz"))
+    if not args.resume:
+        for f in have:
+            f.unlink()
+        have = []
+    log, n_ok = [], len(have)
     with Pool(args.workers, initializer=R._init) as pool:
-        for r in pool.imap_unordered(partial(_trial), range(args.max_trials), chunksize=2):
+        for r in pool.imap_unordered(partial(_trial, seed=args.seed), range(args.max_trials), chunksize=2):
             log.append(r); n_ok += r["success"]
             if len(log) % 100 == 0:
                 print(f"trials {len(log)} kept {n_ok} ({n_ok / len(log):.0%})", flush=True)
             if n_ok >= args.target:
                 pool.terminate(); break
-    summary = dict(trials=len(log), kept=n_ok, rate=n_ok / len(log))
+    summary = dict(trials_this_run=len(log), kept_total=n_ok, rate_this_run=(n_ok - len(have)) / max(1, len(log)))
     json.dump(summary, open(ROOT / "outputs/fold_augment_summary.json", "w"), indent=1)
     print(summary)

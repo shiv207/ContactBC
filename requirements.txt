@@ -14,3 +14,5 @@ tqdm
 # torch: install CUDA 12.8 build for RTX 50xx (sm_120):
 #   pip install torch --index-url https://download.pytorch.org/whl/cu128
 torch>=2.7
+hmmlearn
+scikit-learn

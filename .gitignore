@@ -20,3 +20,7 @@ data/fold_demos/
 data/fold_augmented/
 !outputs/fold_replay_results.json
 !outputs/fold_augment_summary.json
+!outputs/fold_results.md
+!outputs/fold_results.json
+!outputs/fold_phases.json
+!outputs/fold_rl_curve_s*.json

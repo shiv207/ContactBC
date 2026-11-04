@@ -1,0 +1,47 @@
+{
+ "K": 5,
+ "states": {
+  "0": {
+   "name": "lifted/carry",
+   "height_cm": 19.11685613032056,
+   "speed_cms": 54.18200834588631,
+   "aperture": 0.5036524514162174
+  },
+  "1": {
+   "name": "mid-height, moving (lift/lower)",
+   "height_cm": 7.252175581383065,
+   "speed_cms": 26.488829684234013,
+   "aperture": 0.562371850074421
+  },
+  "2": {
+   "name": "low, open (reach/release)",
+   "height_cm": 2.202608334239208,
+   "speed_cms": 25.63725296902899,
+   "aperture": 0.7909959303960878
+  },
+  "3": {
+   "name": "mid-height, moving (lift/lower)",
+   "height_cm": 6.178466498755582,
+   "speed_cms": 45.89472594667022,
+   "aperture": 0.387674038379889
+  },
+  "4": {
+   "name": "low, pinched (grasp/set-down)",
+   "height_cm": 2.8298081084704996,
+   "speed_cms": 13.671730112044909,
+   "aperture": 0.4445936404035738
+  }
+ },
+ "keyframe_to_boundary_frames": 5.0,
+ "keyframe_chance_frames": 9.0,
+ "human_pinch_before_lift": 0.34563758389261745,
+ "human_open_after_setdown": 0.31543624161073824,
+ "human_both": 0.11409395973154363,
+ "robot": {},
+ "human_time_fraction": {
+  "lifted/carry": 0.13802390601754477,
+  "mid-height, moving (lift/lower)": 0.230672549120197,
+  "low, open (reach/release)": 0.18601549274098395,
+  "low, pinched (grasp/set-down)": 0.24742215154157904
+ }
+}

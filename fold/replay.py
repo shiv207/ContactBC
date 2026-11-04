@@ -5,6 +5,7 @@ the cloth for >= 90% of transport, and both released at the end.
 """
 import os
 os.environ.setdefault("MUJOCO_GL", "egl")
+os.environ.setdefault("OMP_NUM_THREADS", "1")
 import argparse, json, sys
 from multiprocessing import Pool
 from pathlib import Path
