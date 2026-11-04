@@ -14,7 +14,7 @@ def quat_err(R_target, R):
 
 
 class ArmIK:
-    def __init__(self, scene, rot_weight=0.3, damping=1e-2):
+    def __init__(self, scene, rot_weight=1.0, damping=1e-2):
         self.s = scene
         self.m = scene.model
         self.d = mujoco.MjData(self.m)          # scratch data: never disturbs the sim

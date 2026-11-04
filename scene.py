@@ -54,7 +54,7 @@ def build_spec():
     cup = w.add_body(name="cup", pos=[*CUP_XY, TABLE_Z + CUP_HH + 0.001])
     cup.add_freejoint(name="cup_free")
     cup.add_geom(name="cup", type=mujoco.mjtGeom.mjGEOM_CYLINDER, size=[CUP_R, CUP_HH, 0], mass=0.08,
-                 rgba=[.9, .9, .95, 1], friction=[1.5, .01, .001], condim=4)
+                 rgba=[.9, .9, .95, 1], friction=[1.5, .05, .002], condim=6)   # torsional friction: no pivoting in the grasp
     cup.add_geom(type=mujoco.mjtGeom.mjGEOM_CYLINDER, size=[CUP_R * 1.02, 0.008, 0], pos=[0, 0, CUP_HH * 0.5],
                  rgba=[.8, .2, .2, 1], contype=0, conaffinity=0, mass=0)   # red band (visual)
 
