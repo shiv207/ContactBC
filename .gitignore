@@ -14,3 +14,9 @@ checkpoints/
 *.pt
 !outputs/replay_results.json
 !outputs/augment_summary.json
+data/raw/fold_takes/
+data/processed_fold/
+data/fold_demos/
+data/fold_augmented/
+!outputs/fold_replay_results.json
+!outputs/fold_augment_summary.json
