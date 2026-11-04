@@ -3,33 +3,33 @@
  "states": {
   "0": {
    "name": "lifted/carry",
-   "height_cm": 19.11685613032056,
-   "speed_cms": 54.18200834588631,
-   "aperture": 0.5036524514162174
+   "height_cm": 19.116856130320564,
+   "speed_cms": 54.18200834588633,
+   "aperture": 0.5036524514162172
   },
   "1": {
    "name": "mid-height, moving (lift/lower)",
-   "height_cm": 7.252175581383065,
-   "speed_cms": 26.488829684234013,
-   "aperture": 0.562371850074421
+   "height_cm": 7.252175581383076,
+   "speed_cms": 26.488829684234044,
+   "aperture": 0.5623718500744201
   },
   "2": {
    "name": "low, open (reach/release)",
-   "height_cm": 2.202608334239208,
-   "speed_cms": 25.63725296902899,
-   "aperture": 0.7909959303960878
+   "height_cm": 2.202608334239226,
+   "speed_cms": 25.637252969029113,
+   "aperture": 0.7909959303960907
   },
   "3": {
    "name": "mid-height, moving (lift/lower)",
-   "height_cm": 6.178466498755582,
-   "speed_cms": 45.89472594667022,
-   "aperture": 0.387674038379889
+   "height_cm": 6.178466498755569,
+   "speed_cms": 45.89472594667014,
+   "aperture": 0.3876740383798886
   },
   "4": {
    "name": "low, pinched (grasp/set-down)",
-   "height_cm": 2.8298081084704996,
-   "speed_cms": 13.671730112044909,
-   "aperture": 0.4445936404035738
+   "height_cm": 2.8298081084704845,
+   "speed_cms": 13.671730112044859,
+   "aperture": 0.44459364040357413
   }
  },
  "keyframe_to_boundary_frames": 5.0,
@@ -37,7 +37,48 @@
  "human_pinch_before_lift": 0.34563758389261745,
  "human_open_after_setdown": 0.31543624161073824,
  "human_both": 0.11409395973154363,
- "robot": {},
+ "robot": {
+  "aug": {
+   "n": 50,
+   "success": 0.1,
+   "follow_all": 0.0,
+   "follow_given_success": 0.0,
+   "follow_given_fail": 0.0,
+   "success_given_follow": null,
+   "success_given_not_follow": 0.1,
+   "n_segments": 6.5,
+   "lifted_frac_success": 0.1702799704565388,
+   "lifted_frac_fail": 0.6392894743602926,
+   "low_frac_success": 0.28645870839680565,
+   "low_frac_fail": 0.11268901776331616,
+   "time_fraction": {
+    "lifted/carry": 0.5923885239699174,
+    "mid-height, moving (lift/lower)": 0.11780189044936819,
+    "low, open (reach/release)": 0.11714920779215725,
+    "low, pinched (grasp/set-down)": 0.012916779034507808
+   }
+  },
+  "aug+rl": {
+   "n": 50,
+   "success": 0.2,
+   "follow_all": 0.0,
+   "follow_given_success": 0.0,
+   "follow_given_fail": 0.0,
+   "success_given_follow": null,
+   "success_given_not_follow": 0.2,
+   "n_segments": 5.68,
+   "lifted_frac_success": 0.3862698760738303,
+   "lifted_frac_fail": 0.7718829639563335,
+   "low_frac_success": 0.1975384071552802,
+   "low_frac_fail": 0.061925677583286286,
+   "time_fraction": {
+    "lifted/carry": 0.6947603463798327,
+    "mid-height, moving (lift/lower)": 0.08894762646929158,
+    "low, open (reach/release)": 0.08339107759248422,
+    "low, pinched (grasp/set-down)": 0.005657145905200825
+   }
+  }
+ },
  "human_time_fraction": {
   "lifted/carry": 0.13802390601754477,
   "mid-height, moving (lift/lower)": 0.230672549120197,

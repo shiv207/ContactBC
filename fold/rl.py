@@ -1,8 +1,11 @@
 """RL fine-tuning: PPO on a residual policy on top of the frozen BC policy (residual RL).
 
   action = BC_ensembled(obs, t) + delta,   delta ~ N(mu_theta(obs), sigma)  on the 14 arm joints only
-  reward = 10 * (phi(s') - phi(s)) - small action penalty  (+3 at the end if the fold is verified)
-           phi = -mean xy distance between each near corner and its far corner (potential-based shaping)
+  reward = +1 per hand on its first grasp
+           + 10 * (phi(s') - phi(s)) while BOTH hands hold the cloth (no reward for dragging it)
+           - 1 if a hand lets go before the near corners are within 6 cm of the far corners
+           - small action penalty, +3 at the end if the fold is verified
+           phi = -mean xy distance between each near corner and its far corner
 
 Grasp timing / finger closure stay with BC; RL corrects the arm motion. Rollouts run on CPU workers,
 the PPO update runs on the GPU.
@@ -70,6 +73,7 @@ def _episode(args):
     ens = Ensembler(_W["bc"])
     O, Aa, LP, R, G = [], [], [], [], []
     phi = potential(s)
+    grasped_once = np.zeros(2, bool); prev_g = np.zeros(2)
     for t in range(H):
         o = obs_vec(s); op = with_phase(o, t)
         base = ens.act(o, t)
@@ -80,8 +84,15 @@ def _episode(args):
         u = u[0].numpy()
         a = base.copy(); a[ARM_DIMS] += DELTA_SCALE * u
         s.step(s.clip_action(a))
-        phi2 = potential(s)
-        R.append(10 * (phi2 - phi) - 1e-3 * float((u ** 2).sum())); phi = phi2
+        phi2 = potential(s); g = s.grasp_state()
+        r = -1e-3 * float((u ** 2).sum())
+        if g.min() > 0:                                   # fold progress only counts while both hands hold
+            r += 10 * (phi2 - phi)
+        new_grasp = (g > 0) & ~grasped_once
+        r += 1.0 * new_grasp.sum(); grasped_once |= g > 0
+        if ((prev_g > 0) & (g == 0)).any() and phi2 < -0.06:
+            r -= 1.0                                      # let go before the near corners reached the far ones
+        R.append(r); phi = phi2; prev_g = g
         O.append(op); Aa.append(u); LP.append(lp); G.append(s.grasp_state())
     G = np.array(G); held = np.flatnonzero(G.max(1) > 0)
     tr = slice(held[0], held[-1] + 1) if len(held) else slice(0, 0)
@@ -107,7 +118,7 @@ def train(base="aug", seed=0, iters=30, eps_per_iter=40, workers=20, device="cud
     O, _, _ = load_data("aug")
     ac = ActorCritic(O.shape[1]).to(device)
     ac.o_mu.copy_(torch.tensor(O.mean(0))); ac.o_sd.copy_(torch.tensor(O.std(0) + 1e-3))
-    opt = torch.optim.Adam(ac.parameters(), lr=3e-4)
+    opt = torch.optim.Adam(ac.parameters(), lr=1e-4)
     curve = []
     with Pool(workers, initializer=_init, initargs=(base, seed)) as pool:
         for it in range(iters):
@@ -142,6 +153,7 @@ def train(base="aug", seed=0, iters=30, eps_per_iter=40, workers=20, device="cud
                   flush=True)
     CKPT.mkdir(parents=True, exist_ok=True)
     torch.save(dict(ac=ac.cpu().state_dict(), base=base), CKPT / f"{base}+rl_s{seed}.pt")
+    ac.to(device)
     json.dump(curve, open(ROOT / f"outputs/fold_rl_curve_s{seed}.json", "w"), indent=1)
 
 
