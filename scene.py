@@ -25,7 +25,7 @@ HAND = [f"right_hand_{j}_joint" for j in
 TIPS = {"thumb": "right_hand_thumb_2_link", "index": "right_hand_index_1_link", "middle": "right_hand_middle_1_link"}
 
 
-def build_spec():
+def build_spec(cup=True):
     spec = mujoco.MjSpec.from_file(str(G1_XML))
     spec.delete(spec.joint("floating_base_joint"))      # weld pelvis to world
     for k in list(spec.keys):
@@ -42,8 +42,14 @@ def build_spec():
     w.add_geom(type=mujoco.mjtGeom.mjGEOM_PLANE, size=[3, 3, 0.1], material="grid")
 
     # table
-    t = w.add_body(name="table", pos=[0.45, -0.1, TABLE_Z / 2])
-    t.add_geom(type=mujoco.mjtGeom.mjGEOM_BOX, size=[0.25, 0.4, TABLE_Z / 2], rgba=[.55, .4, .3, 1], friction=[1, .005, .0001])
+    tx, ty = (0.45, -0.1) if cup else (0.45, 0.0)      # cloth scene: wider table (front edge x = 0.16)
+    t = w.add_body(name="table", pos=[tx, ty, TABLE_Z / 2])
+    t.add_geom(type=mujoco.mjtGeom.mjGEOM_BOX, size=[0.29 if not cup else 0.25, 0.4, TABLE_Z / 2], rgba=[.55, .4, .3, 1],
+               friction=[1, .005, .0001])
+
+    if not cup:                                          # cloth scene (fold/) builds its own objects
+        _add_sensors_cameras(spec, w)
+        return spec
 
     # coaster (static, its own body so augment.py can move it)
     c = w.add_body(name="coaster", pos=[*COASTER_XY, TABLE_Z + COASTER_HH])
@@ -58,6 +64,11 @@ def build_spec():
     cup.add_geom(type=mujoco.mjtGeom.mjGEOM_CYLINDER, size=[CUP_R * 1.02, 0.008, 0], pos=[0, 0, CUP_HH * 0.5],
                  rgba=[.8, .2, .2, 1], contype=0, conaffinity=0, mass=0)   # red band (visual)
 
+    _add_sensors_cameras(spec, w)
+    return spec
+
+
+def _add_sensors_cameras(spec, w):
     # fingertip touch sensors: a sphere site covering each distal link
     for name, body in TIPS.items():
         b = spec.body(body)
@@ -71,7 +82,6 @@ def build_spec():
     # cameras: third-person and egocentric (head-mounted, like the human videos)
     w.add_camera(name="front", pos=[1.25, -0.55, 1.35], xyaxes=[0.45, 0.89, 0, -0.42, 0.21, 0.88])
     spec.body("torso_link").add_camera(name="ego", pos=[0.08, 0, 0.42], xyaxes=[0, -1, 0, 0.75, 0, 0.66])
-    return spec
 
 
 class Scene:
