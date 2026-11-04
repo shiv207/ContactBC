@@ -1,0 +1,3210 @@
+{
+ "plain": [
+  {
+   "i": 0,
+   "cup": [
+    0.32,
+    -0.123
+   ],
+   "coaster": [
+    0.339,
+    -0.308
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1863056798563386,
+   "upright": 1.0
+  },
+  {
+   "i": 1,
+   "cup": [
+    0.304,
+    -0.278
+   ],
+   "coaster": [
+    0.332,
+    -0.142
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.13947016979474466,
+   "upright": 1.0
+  },
+  {
+   "i": 2,
+   "cup": [
+    0.363,
+    -0.292
+   ],
+   "coaster": [
+    0.311,
+    -0.045
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.2524576961400009,
+   "upright": 1.0
+  },
+  {
+   "i": 3,
+   "cup": [
+    0.349,
+    -0.07
+   ],
+   "coaster": [
+    0.31,
+    -0.211
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1466426343260552,
+   "upright": 1.0
+  },
+  {
+   "i": 4,
+   "cup": [
+    0.294,
+    -0.047
+   ],
+   "coaster": [
+    0.349,
+    -0.282
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.24232981959185143,
+   "upright": 1.0
+  },
+  {
+   "i": 5,
+   "cup": [
+    0.271,
+    -0.277
+   ],
+   "coaster": [
+    0.329,
+    -0.131
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.15665600677935282,
+   "upright": 1.0
+  },
+  {
+   "i": 6,
+   "cup": [
+    0.393,
+    -0.018
+   ],
+   "coaster": [
+    0.358,
+    -0.209
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.19448978493665126,
+   "upright": 1.0
+  },
+  {
+   "i": 7,
+   "cup": [
+    0.381,
+    -0.082
+   ],
+   "coaster": [
+    0.348,
+    -0.305
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.22591484068126663,
+   "upright": 1.0
+  },
+  {
+   "i": 8,
+   "cup": [
+    0.327,
+    -0.322
+   ],
+   "coaster": [
+    0.359,
+    -0.02
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.30374006270857196,
+   "upright": 1.0
+  },
+  {
+   "i": 9,
+   "cup": [
+    0.277,
+    -0.158
+   ],
+   "coaster": [
+    0.373,
+    -0.236
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1237522884247607,
+   "upright": 1.0
+  },
+  {
+   "i": 10,
+   "cup": [
+    0.299,
+    -0.241
+   ],
+   "coaster": [
+    0.396,
+    -0.126
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.14979467936016613,
+   "upright": 1.0
+  },
+  {
+   "i": 11,
+   "cup": [
+    0.281,
+    -0.236
+   ],
+   "coaster": [
+    0.294,
+    -0.068
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1687425762129197,
+   "upright": 1.0
+  },
+  {
+   "i": 12,
+   "cup": [
+    0.372,
+    -0.212
+   ],
+   "coaster": [
+    0.35,
+    -0.079
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.13465531669103772,
+   "upright": 1.0
+  },
+  {
+   "i": 13,
+   "cup": [
+    0.319,
+    -0.115
+   ],
+   "coaster": [
+    0.322,
+    -0.237
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.12163276622163603,
+   "upright": 1.0
+  },
+  {
+   "i": 14,
+   "cup": [
+    0.309,
+    -0.321
+   ],
+   "coaster": [
+    0.304,
+    -0.201
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.23162946869685236,
+   "upright": 0.999996439081564
+  },
+  {
+   "i": 15,
+   "cup": [
+    0.32,
+    -0.093
+   ],
+   "coaster": [
+    0.297,
+    -0.299
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.20802886187780276,
+   "upright": 1.0
+  },
+  {
+   "i": 16,
+   "cup": [
+    0.304,
+    -0.296
+   ],
+   "coaster": [
+    0.325,
+    -0.057
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.3118020007667067,
+   "upright": -0.0026311174908467275
+  },
+  {
+   "i": 17,
+   "cup": [
+    0.395,
+    -0.251
+   ],
+   "coaster": [
+    0.301,
+    -0.168
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1253927342479514,
+   "upright": 1.0
+  },
+  {
+   "i": 18,
+   "cup": [
+    0.359,
+    -0.169
+   ],
+   "coaster": [
+    0.382,
+    -0.327
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.15957410252740228,
+   "upright": 1.0
+  },
+  {
+   "i": 19,
+   "cup": [
+    0.282,
+    -0.285
+   ],
+   "coaster": [
+    0.335,
+    -0.143
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1515587830452959,
+   "upright": 1.0
+  },
+  {
+   "i": 20,
+   "cup": [
+    0.322,
+    -0.034
+   ],
+   "coaster": [
+    0.28,
+    -0.191
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.16280114069603993,
+   "upright": 1.0
+  },
+  {
+   "i": 21,
+   "cup": [
+    0.286,
+    -0.149
+   ],
+   "coaster": [
+    0.349,
+    -0.265
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.13243525514052576,
+   "upright": 1.0
+  },
+  {
+   "i": 22,
+   "cup": [
+    0.345,
+    -0.301
+   ],
+   "coaster": [
+    0.272,
+    -0.128
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.18706665708242765,
+   "upright": 1.0
+  },
+  {
+   "i": 23,
+   "cup": [
+    0.329,
+    -0.02
+   ],
+   "coaster": [
+    0.274,
+    -0.313
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.29832619332030913,
+   "upright": 1.0
+  },
+  {
+   "i": 24,
+   "cup": [
+    0.352,
+    -0.272
+   ],
+   "coaster": [
+    0.392,
+    -0.132
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.14550071568743952,
+   "upright": 1.0
+  },
+  {
+   "i": 25,
+   "cup": [
+    0.286,
+    -0.32
+   ],
+   "coaster": [
+    0.347,
+    -0.167
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.16444475964527672,
+   "upright": 1.0
+  },
+  {
+   "i": 26,
+   "cup": [
+    0.274,
+    -0.128
+   ],
+   "coaster": [
+    0.394,
+    -0.231
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.15831170913085746,
+   "upright": 1.0
+  },
+  {
+   "i": 27,
+   "cup": [
+    0.391,
+    -0.255
+   ],
+   "coaster": [
+    0.363,
+    -0.105
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1532040026510952,
+   "upright": 1.0
+  },
+  {
+   "i": 28,
+   "cup": [
+    0.292,
+    -0.009
+   ],
+   "coaster": [
+    0.313,
+    -0.15
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.14328555595460674,
+   "upright": 1.0
+  },
+  {
+   "i": 29,
+   "cup": [
+    0.293,
+    -0.308
+   ],
+   "coaster": [
+    0.316,
+    -0.183
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1271149916071804,
+   "upright": 1.0
+  },
+  {
+   "i": 30,
+   "cup": [
+    0.38,
+    -0.258
+   ],
+   "coaster": [
+    0.35,
+    -0.014
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.24639140900621634,
+   "upright": 1.0
+  },
+  {
+   "i": 31,
+   "cup": [
+    0.322,
+    -0.136
+   ],
+   "coaster": [
+    0.389,
+    -0.29
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.16768011954904713,
+   "upright": 1.0
+  },
+  {
+   "i": 32,
+   "cup": [
+    0.346,
+    -0.135
+   ],
+   "coaster": [
+    0.367,
+    -0.317
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.18300453679147227,
+   "upright": 1.0
+  },
+  {
+   "i": 33,
+   "cup": [
+    0.272,
+    -0.077
+   ],
+   "coaster": [
+    0.396,
+    -0.166
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1519979677500037,
+   "upright": 1.0
+  },
+  {
+   "i": 34,
+   "cup": [
+    0.384,
+    -0.325
+   ],
+   "coaster": [
+    0.288,
+    -0.195
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.16153858416206748,
+   "upright": 1.0
+  },
+  {
+   "i": 35,
+   "cup": [
+    0.394,
+    -0.233
+   ],
+   "coaster": [
+    0.301,
+    -0.323
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.12872558349695298,
+   "upright": 1.0
+  },
+  {
+   "i": 36,
+   "cup": [
+    0.344,
+    -0.169
+   ],
+   "coaster": [
+    0.329,
+    -0.322
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1534613875281895,
+   "upright": 1.0
+  },
+  {
+   "i": 37,
+   "cup": [
+    0.376,
+    -0.026
+   ],
+   "coaster": [
+    0.397,
+    -0.232
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.20652949611915264,
+   "upright": 1.0
+  },
+  {
+   "i": 38,
+   "cup": [
+    0.285,
+    -0.296
+   ],
+   "coaster": [
+    0.362,
+    -0.062
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.24692388081916494,
+   "upright": 1.0
+  },
+  {
+   "i": 39,
+   "cup": [
+    0.289,
+    -0.177
+   ],
+   "coaster": [
+    0.311,
+    -0.007
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.17125268337527616,
+   "upright": 1.0
+  },
+  {
+   "i": 40,
+   "cup": [
+    0.279,
+    -0.136
+   ],
+   "coaster": [
+    0.344,
+    -0.298
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1744392020102408,
+   "upright": 1.0
+  },
+  {
+   "i": 41,
+   "cup": [
+    0.296,
+    -0.162
+   ],
+   "coaster": [
+    0.388,
+    -0.259
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.13394392076416103,
+   "upright": 1.0
+  },
+  {
+   "i": 42,
+   "cup": [
+    0.281,
+    -0.057
+   ],
+   "coaster": [
+    0.368,
+    -0.255
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.2161407767076911,
+   "upright": 1.0
+  },
+  {
+   "i": 43,
+   "cup": [
+    0.391,
+    -0.288
+   ],
+   "coaster": [
+    0.281,
+    -0.173
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.20267251301975212,
+   "upright": -0.0024021213361176716
+  },
+  {
+   "i": 44,
+   "cup": [
+    0.355,
+    -0.189
+   ],
+   "coaster": [
+    0.385,
+    -0.005
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.18687983240069564,
+   "upright": 1.0
+  },
+  {
+   "i": 45,
+   "cup": [
+    0.307,
+    -0.205
+   ],
+   "coaster": [
+    0.341,
+    -0.017
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.12118873223017562,
+   "upright": -0.0022953581992836035
+  },
+  {
+   "i": 46,
+   "cup": [
+    0.295,
+    -0.033
+   ],
+   "coaster": [
+    0.313,
+    -0.211
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.17903233806487906,
+   "upright": 1.0
+  },
+  {
+   "i": 47,
+   "cup": [
+    0.397,
+    -0.228
+   ],
+   "coaster": [
+    0.328,
+    -0.089
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.15578356522431636,
+   "upright": 1.0
+  },
+  {
+   "i": 48,
+   "cup": [
+    0.334,
+    -0.201
+   ],
+   "coaster": [
+    0.29,
+    -0.057
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.15093904398392172,
+   "upright": 1.0
+  },
+  {
+   "i": 49,
+   "cup": [
+    0.336,
+    -0.269
+   ],
+   "coaster": [
+    0.335,
+    -0.118
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.15111840256301115,
+   "upright": 1.0
+  }
+ ],
+ "plain+cg": [
+  {
+   "i": 0,
+   "cup": [
+    0.32,
+    -0.123
+   ],
+   "coaster": [
+    0.339,
+    -0.308
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1863056798563386,
+   "upright": 1.0
+  },
+  {
+   "i": 1,
+   "cup": [
+    0.304,
+    -0.278
+   ],
+   "coaster": [
+    0.332,
+    -0.142
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.13947016979474466,
+   "upright": 1.0
+  },
+  {
+   "i": 2,
+   "cup": [
+    0.363,
+    -0.292
+   ],
+   "coaster": [
+    0.311,
+    -0.045
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.2524576961400009,
+   "upright": 1.0
+  },
+  {
+   "i": 3,
+   "cup": [
+    0.349,
+    -0.07
+   ],
+   "coaster": [
+    0.31,
+    -0.211
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1466426343260552,
+   "upright": 1.0
+  },
+  {
+   "i": 4,
+   "cup": [
+    0.294,
+    -0.047
+   ],
+   "coaster": [
+    0.349,
+    -0.282
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.24232981959185143,
+   "upright": 1.0
+  },
+  {
+   "i": 5,
+   "cup": [
+    0.271,
+    -0.277
+   ],
+   "coaster": [
+    0.329,
+    -0.131
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.15665600677935282,
+   "upright": 1.0
+  },
+  {
+   "i": 6,
+   "cup": [
+    0.393,
+    -0.018
+   ],
+   "coaster": [
+    0.358,
+    -0.209
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.19448978493665126,
+   "upright": 1.0
+  },
+  {
+   "i": 7,
+   "cup": [
+    0.381,
+    -0.082
+   ],
+   "coaster": [
+    0.348,
+    -0.305
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.22591484068126663,
+   "upright": 1.0
+  },
+  {
+   "i": 8,
+   "cup": [
+    0.327,
+    -0.322
+   ],
+   "coaster": [
+    0.359,
+    -0.02
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.30374006270857196,
+   "upright": 1.0
+  },
+  {
+   "i": 9,
+   "cup": [
+    0.277,
+    -0.158
+   ],
+   "coaster": [
+    0.373,
+    -0.236
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1237522884247607,
+   "upright": 1.0
+  },
+  {
+   "i": 10,
+   "cup": [
+    0.299,
+    -0.241
+   ],
+   "coaster": [
+    0.396,
+    -0.126
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.14979467936016613,
+   "upright": 1.0
+  },
+  {
+   "i": 11,
+   "cup": [
+    0.281,
+    -0.236
+   ],
+   "coaster": [
+    0.294,
+    -0.068
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1687425762129197,
+   "upright": 1.0
+  },
+  {
+   "i": 12,
+   "cup": [
+    0.372,
+    -0.212
+   ],
+   "coaster": [
+    0.35,
+    -0.079
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.13465531669103772,
+   "upright": 1.0
+  },
+  {
+   "i": 13,
+   "cup": [
+    0.319,
+    -0.115
+   ],
+   "coaster": [
+    0.322,
+    -0.237
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.12163276622163603,
+   "upright": 1.0
+  },
+  {
+   "i": 14,
+   "cup": [
+    0.309,
+    -0.321
+   ],
+   "coaster": [
+    0.304,
+    -0.201
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1201003208524631,
+   "upright": 1.0
+  },
+  {
+   "i": 15,
+   "cup": [
+    0.32,
+    -0.093
+   ],
+   "coaster": [
+    0.297,
+    -0.299
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.20802886187780276,
+   "upright": 1.0
+  },
+  {
+   "i": 16,
+   "cup": [
+    0.304,
+    -0.296
+   ],
+   "coaster": [
+    0.325,
+    -0.057
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.23945279823386767,
+   "upright": 1.0
+  },
+  {
+   "i": 17,
+   "cup": [
+    0.395,
+    -0.251
+   ],
+   "coaster": [
+    0.301,
+    -0.168
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1253927342479514,
+   "upright": 1.0
+  },
+  {
+   "i": 18,
+   "cup": [
+    0.359,
+    -0.169
+   ],
+   "coaster": [
+    0.382,
+    -0.327
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.15957410252740228,
+   "upright": 1.0
+  },
+  {
+   "i": 19,
+   "cup": [
+    0.282,
+    -0.285
+   ],
+   "coaster": [
+    0.335,
+    -0.143
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1515587830452959,
+   "upright": 1.0
+  },
+  {
+   "i": 20,
+   "cup": [
+    0.322,
+    -0.034
+   ],
+   "coaster": [
+    0.28,
+    -0.191
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.16280114069603993,
+   "upright": 1.0
+  },
+  {
+   "i": 21,
+   "cup": [
+    0.286,
+    -0.149
+   ],
+   "coaster": [
+    0.349,
+    -0.265
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.13243525514052576,
+   "upright": 1.0
+  },
+  {
+   "i": 22,
+   "cup": [
+    0.345,
+    -0.301
+   ],
+   "coaster": [
+    0.272,
+    -0.128
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.18706665708242765,
+   "upright": 1.0
+  },
+  {
+   "i": 23,
+   "cup": [
+    0.329,
+    -0.02
+   ],
+   "coaster": [
+    0.274,
+    -0.313
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.29832619332030913,
+   "upright": 1.0
+  },
+  {
+   "i": 24,
+   "cup": [
+    0.352,
+    -0.272
+   ],
+   "coaster": [
+    0.392,
+    -0.132
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.14550071568743952,
+   "upright": 1.0
+  },
+  {
+   "i": 25,
+   "cup": [
+    0.286,
+    -0.32
+   ],
+   "coaster": [
+    0.347,
+    -0.167
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.16444475964527672,
+   "upright": 1.0
+  },
+  {
+   "i": 26,
+   "cup": [
+    0.274,
+    -0.128
+   ],
+   "coaster": [
+    0.394,
+    -0.231
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.15831170913085746,
+   "upright": 1.0
+  },
+  {
+   "i": 27,
+   "cup": [
+    0.391,
+    -0.255
+   ],
+   "coaster": [
+    0.363,
+    -0.105
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1532040026510952,
+   "upright": 1.0
+  },
+  {
+   "i": 28,
+   "cup": [
+    0.292,
+    -0.009
+   ],
+   "coaster": [
+    0.313,
+    -0.15
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.14328555595460674,
+   "upright": 1.0
+  },
+  {
+   "i": 29,
+   "cup": [
+    0.293,
+    -0.308
+   ],
+   "coaster": [
+    0.316,
+    -0.183
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1271149916071804,
+   "upright": 1.0
+  },
+  {
+   "i": 30,
+   "cup": [
+    0.38,
+    -0.258
+   ],
+   "coaster": [
+    0.35,
+    -0.014
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.24639140900621634,
+   "upright": 1.0
+  },
+  {
+   "i": 31,
+   "cup": [
+    0.322,
+    -0.136
+   ],
+   "coaster": [
+    0.389,
+    -0.29
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.16768011954904713,
+   "upright": 1.0
+  },
+  {
+   "i": 32,
+   "cup": [
+    0.346,
+    -0.135
+   ],
+   "coaster": [
+    0.367,
+    -0.317
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.18300453679147227,
+   "upright": 1.0
+  },
+  {
+   "i": 33,
+   "cup": [
+    0.272,
+    -0.077
+   ],
+   "coaster": [
+    0.396,
+    -0.166
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1519979677500037,
+   "upright": 1.0
+  },
+  {
+   "i": 34,
+   "cup": [
+    0.384,
+    -0.325
+   ],
+   "coaster": [
+    0.288,
+    -0.195
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.16153858416206748,
+   "upright": 1.0
+  },
+  {
+   "i": 35,
+   "cup": [
+    0.394,
+    -0.233
+   ],
+   "coaster": [
+    0.301,
+    -0.323
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.12872558349695298,
+   "upright": 1.0
+  },
+  {
+   "i": 36,
+   "cup": [
+    0.344,
+    -0.169
+   ],
+   "coaster": [
+    0.329,
+    -0.322
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1534613875281895,
+   "upright": 1.0
+  },
+  {
+   "i": 37,
+   "cup": [
+    0.376,
+    -0.026
+   ],
+   "coaster": [
+    0.397,
+    -0.232
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.20652949611915264,
+   "upright": 1.0
+  },
+  {
+   "i": 38,
+   "cup": [
+    0.285,
+    -0.296
+   ],
+   "coaster": [
+    0.362,
+    -0.062
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.24692388081916494,
+   "upright": 1.0
+  },
+  {
+   "i": 39,
+   "cup": [
+    0.289,
+    -0.177
+   ],
+   "coaster": [
+    0.311,
+    -0.007
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.17125268337527616,
+   "upright": 1.0
+  },
+  {
+   "i": 40,
+   "cup": [
+    0.279,
+    -0.136
+   ],
+   "coaster": [
+    0.344,
+    -0.298
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1744392020102408,
+   "upright": 1.0
+  },
+  {
+   "i": 41,
+   "cup": [
+    0.296,
+    -0.162
+   ],
+   "coaster": [
+    0.388,
+    -0.259
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.13394392076416103,
+   "upright": 1.0
+  },
+  {
+   "i": 42,
+   "cup": [
+    0.281,
+    -0.057
+   ],
+   "coaster": [
+    0.368,
+    -0.255
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.2161407767076911,
+   "upright": 1.0
+  },
+  {
+   "i": 43,
+   "cup": [
+    0.391,
+    -0.288
+   ],
+   "coaster": [
+    0.281,
+    -0.173
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.15965686315992164,
+   "upright": 1.0
+  },
+  {
+   "i": 44,
+   "cup": [
+    0.355,
+    -0.189
+   ],
+   "coaster": [
+    0.385,
+    -0.005
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.18687983240069564,
+   "upright": 1.0
+  },
+  {
+   "i": 45,
+   "cup": [
+    0.307,
+    -0.205
+   ],
+   "coaster": [
+    0.341,
+    -0.017
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.190985882090356,
+   "upright": 1.0
+  },
+  {
+   "i": 46,
+   "cup": [
+    0.295,
+    -0.033
+   ],
+   "coaster": [
+    0.313,
+    -0.211
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.17903233806487906,
+   "upright": 1.0
+  },
+  {
+   "i": 47,
+   "cup": [
+    0.397,
+    -0.228
+   ],
+   "coaster": [
+    0.328,
+    -0.089
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.15578356522431636,
+   "upright": 1.0
+  },
+  {
+   "i": 48,
+   "cup": [
+    0.334,
+    -0.201
+   ],
+   "coaster": [
+    0.29,
+    -0.057
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.15093904398392172,
+   "upright": 1.0
+  },
+  {
+   "i": 49,
+   "cup": [
+    0.336,
+    -0.269
+   ],
+   "coaster": [
+    0.335,
+    -0.118
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.15111840256301115,
+   "upright": 1.0
+  }
+ ],
+ "aug": [
+  {
+   "i": 0,
+   "cup": [
+    0.32,
+    -0.123
+   ],
+   "coaster": [
+    0.339,
+    -0.308
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.12572279785296445,
+   "upright": -5.409217300685748e-05
+  },
+  {
+   "i": 1,
+   "cup": [
+    0.304,
+    -0.278
+   ],
+   "coaster": [
+    0.332,
+    -0.142
+   ],
+   "success": true,
+   "grasp_held": true,
+   "placed": true,
+   "dist": 0.00709960978311107,
+   "upright": 0.9999982814690493
+  },
+  {
+   "i": 2,
+   "cup": [
+    0.363,
+    -0.292
+   ],
+   "coaster": [
+    0.311,
+    -0.045
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.2524576961400009,
+   "upright": 1.0
+  },
+  {
+   "i": 3,
+   "cup": [
+    0.349,
+    -0.07
+   ],
+   "coaster": [
+    0.31,
+    -0.211
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 0.22467236640043575,
+   "upright": 4.5974515766739055e-05
+  },
+  {
+   "i": 4,
+   "cup": [
+    0.294,
+    -0.047
+   ],
+   "coaster": [
+    0.349,
+    -0.282
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 1.1183096002602946,
+   "upright": -0.002414837108755674
+  },
+  {
+   "i": 5,
+   "cup": [
+    0.271,
+    -0.277
+   ],
+   "coaster": [
+    0.329,
+    -0.131
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.05950103978579191,
+   "upright": -0.07059163949127857
+  },
+  {
+   "i": 6,
+   "cup": [
+    0.393,
+    -0.018
+   ],
+   "coaster": [
+    0.358,
+    -0.209
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.19448978493665126,
+   "upright": 1.0
+  },
+  {
+   "i": 7,
+   "cup": [
+    0.381,
+    -0.082
+   ],
+   "coaster": [
+    0.348,
+    -0.305
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.2337184631312934,
+   "upright": -6.0344311683676864e-05
+  },
+  {
+   "i": 8,
+   "cup": [
+    0.327,
+    -0.322
+   ],
+   "coaster": [
+    0.359,
+    -0.02
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.3038855320476292,
+   "upright": 0.9999942848820875
+  },
+  {
+   "i": 9,
+   "cup": [
+    0.277,
+    -0.158
+   ],
+   "coaster": [
+    0.373,
+    -0.236
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.19291651834350845,
+   "upright": -0.0027945720103142676
+  },
+  {
+   "i": 10,
+   "cup": [
+    0.299,
+    -0.241
+   ],
+   "coaster": [
+    0.396,
+    -0.126
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 0.0719643541347606,
+   "upright": 0.9955239955765977
+  },
+  {
+   "i": 11,
+   "cup": [
+    0.281,
+    -0.236
+   ],
+   "coaster": [
+    0.294,
+    -0.068
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.16883656341445108,
+   "upright": 0.9999975048939396
+  },
+  {
+   "i": 12,
+   "cup": [
+    0.372,
+    -0.212
+   ],
+   "coaster": [
+    0.35,
+    -0.079
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.0757419316263503,
+   "upright": 0.9999942799469643
+  },
+  {
+   "i": 13,
+   "cup": [
+    0.319,
+    -0.115
+   ],
+   "coaster": [
+    0.322,
+    -0.237
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 0.25750123396422936,
+   "upright": 0.6699497380276864
+  },
+  {
+   "i": 14,
+   "cup": [
+    0.309,
+    -0.321
+   ],
+   "coaster": [
+    0.304,
+    -0.201
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1201003208524631,
+   "upright": 1.0
+  },
+  {
+   "i": 15,
+   "cup": [
+    0.32,
+    -0.093
+   ],
+   "coaster": [
+    0.297,
+    -0.299
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 0.3727861337098949,
+   "upright": 0.0006593395610968722
+  },
+  {
+   "i": 16,
+   "cup": [
+    0.304,
+    -0.296
+   ],
+   "coaster": [
+    0.325,
+    -0.057
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.23945279823386767,
+   "upright": 1.0
+  },
+  {
+   "i": 17,
+   "cup": [
+    0.395,
+    -0.251
+   ],
+   "coaster": [
+    0.301,
+    -0.168
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1253927342479514,
+   "upright": 1.0
+  },
+  {
+   "i": 18,
+   "cup": [
+    0.359,
+    -0.169
+   ],
+   "coaster": [
+    0.382,
+    -0.327
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 0.40509971090981267,
+   "upright": -0.003085662907244033
+  },
+  {
+   "i": 19,
+   "cup": [
+    0.282,
+    -0.285
+   ],
+   "coaster": [
+    0.335,
+    -0.143
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.020006363179038658,
+   "upright": -0.00342780069224383
+  },
+  {
+   "i": 20,
+   "cup": [
+    0.322,
+    -0.034
+   ],
+   "coaster": [
+    0.28,
+    -0.191
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.19639755171437667,
+   "upright": -0.0025333496634906486
+  },
+  {
+   "i": 21,
+   "cup": [
+    0.286,
+    -0.149
+   ],
+   "coaster": [
+    0.349,
+    -0.265
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 0.2706895914701402,
+   "upright": 0.5565761078331809
+  },
+  {
+   "i": 22,
+   "cup": [
+    0.345,
+    -0.301
+   ],
+   "coaster": [
+    0.272,
+    -0.128
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.18706665708242765,
+   "upright": 1.0
+  },
+  {
+   "i": 23,
+   "cup": [
+    0.329,
+    -0.02
+   ],
+   "coaster": [
+    0.274,
+    -0.313
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.29832619332030913,
+   "upright": 1.0
+  },
+  {
+   "i": 24,
+   "cup": [
+    0.352,
+    -0.272
+   ],
+   "coaster": [
+    0.392,
+    -0.132
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 0.0729352150911749,
+   "upright": 0.9751453603144515
+  },
+  {
+   "i": 25,
+   "cup": [
+    0.286,
+    -0.32
+   ],
+   "coaster": [
+    0.347,
+    -0.167
+   ],
+   "success": true,
+   "grasp_held": true,
+   "placed": true,
+   "dist": 0.0209172013350326,
+   "upright": 0.999999387299997
+  },
+  {
+   "i": 26,
+   "cup": [
+    0.274,
+    -0.128
+   ],
+   "coaster": [
+    0.394,
+    -0.231
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.20365856504361807,
+   "upright": -0.0024329129785339056
+  },
+  {
+   "i": 27,
+   "cup": [
+    0.391,
+    -0.255
+   ],
+   "coaster": [
+    0.363,
+    -0.105
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.13742503752169097,
+   "upright": 0.9999975808572863
+  },
+  {
+   "i": 28,
+   "cup": [
+    0.292,
+    -0.009
+   ],
+   "coaster": [
+    0.313,
+    -0.15
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.2296221486596714,
+   "upright": -0.0026160867066315104
+  },
+  {
+   "i": 29,
+   "cup": [
+    0.293,
+    -0.308
+   ],
+   "coaster": [
+    0.316,
+    -0.183
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.0753214797992019,
+   "upright": 0.9999947924334187
+  },
+  {
+   "i": 30,
+   "cup": [
+    0.38,
+    -0.258
+   ],
+   "coaster": [
+    0.35,
+    -0.014
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.24627446119512478,
+   "upright": 0.9999975742574015
+  },
+  {
+   "i": 31,
+   "cup": [
+    0.322,
+    -0.136
+   ],
+   "coaster": [
+    0.389,
+    -0.29
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 0.18617055239234767,
+   "upright": 0.7313409395627501
+  },
+  {
+   "i": 32,
+   "cup": [
+    0.346,
+    -0.135
+   ],
+   "coaster": [
+    0.367,
+    -0.317
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.3624057861704552,
+   "upright": 0.0043317378952711216
+  },
+  {
+   "i": 33,
+   "cup": [
+    0.272,
+    -0.077
+   ],
+   "coaster": [
+    0.396,
+    -0.166
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 0.32805674587937017,
+   "upright": 0.5271199866749702
+  },
+  {
+   "i": 34,
+   "cup": [
+    0.384,
+    -0.325
+   ],
+   "coaster": [
+    0.288,
+    -0.195
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.16153858416206748,
+   "upright": 1.0
+  },
+  {
+   "i": 35,
+   "cup": [
+    0.394,
+    -0.233
+   ],
+   "coaster": [
+    0.301,
+    -0.323
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.12872558349695298,
+   "upright": 1.0
+  },
+  {
+   "i": 36,
+   "cup": [
+    0.344,
+    -0.169
+   ],
+   "coaster": [
+    0.329,
+    -0.322
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 0.24090378305800672,
+   "upright": -0.0003725928911601159
+  },
+  {
+   "i": 37,
+   "cup": [
+    0.376,
+    -0.026
+   ],
+   "coaster": [
+    0.397,
+    -0.232
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.2920841320710984,
+   "upright": -0.002514824926227257
+  },
+  {
+   "i": 38,
+   "cup": [
+    0.285,
+    -0.296
+   ],
+   "coaster": [
+    0.362,
+    -0.062
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 0.08388570899767882,
+   "upright": -5.627372613059567e-06
+  },
+  {
+   "i": 39,
+   "cup": [
+    0.289,
+    -0.177
+   ],
+   "coaster": [
+    0.311,
+    -0.007
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 0.07691651777335023,
+   "upright": -0.02313752827530112
+  },
+  {
+   "i": 40,
+   "cup": [
+    0.279,
+    -0.136
+   ],
+   "coaster": [
+    0.344,
+    -0.298
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 0.14292929387416123,
+   "upright": 0.052203594023893005
+  },
+  {
+   "i": 41,
+   "cup": [
+    0.296,
+    -0.162
+   ],
+   "coaster": [
+    0.388,
+    -0.259
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.11583447127628718,
+   "upright": -0.0028727744687898956
+  },
+  {
+   "i": 42,
+   "cup": [
+    0.281,
+    -0.057
+   ],
+   "coaster": [
+    0.368,
+    -0.255
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.3704145771240777,
+   "upright": -0.0020032405307638113
+  },
+  {
+   "i": 43,
+   "cup": [
+    0.391,
+    -0.288
+   ],
+   "coaster": [
+    0.281,
+    -0.173
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.15965686315992164,
+   "upright": 1.0
+  },
+  {
+   "i": 44,
+   "cup": [
+    0.355,
+    -0.189
+   ],
+   "coaster": [
+    0.385,
+    -0.005
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1691805361829681,
+   "upright": -0.0003676427675724375
+  },
+  {
+   "i": 45,
+   "cup": [
+    0.307,
+    -0.205
+   ],
+   "coaster": [
+    0.341,
+    -0.017
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 0.0780539162642148,
+   "upright": 0.16286301869842063
+  },
+  {
+   "i": 46,
+   "cup": [
+    0.295,
+    -0.033
+   ],
+   "coaster": [
+    0.313,
+    -0.211
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 0.14047788942157488,
+   "upright": -0.002567489818032814
+  },
+  {
+   "i": 47,
+   "cup": [
+    0.397,
+    -0.228
+   ],
+   "coaster": [
+    0.328,
+    -0.089
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.15578356522431636,
+   "upright": 1.0
+  },
+  {
+   "i": 48,
+   "cup": [
+    0.334,
+    -0.201
+   ],
+   "coaster": [
+    0.29,
+    -0.057
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.15103389109187013,
+   "upright": 0.9999966252367707
+  },
+  {
+   "i": 49,
+   "cup": [
+    0.336,
+    -0.269
+   ],
+   "coaster": [
+    0.335,
+    -0.118
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.19576972828078773,
+   "upright": -0.0025199242319390944
+  }
+ ],
+ "aug+cg": [
+  {
+   "i": 0,
+   "cup": [
+    0.32,
+    -0.123
+   ],
+   "coaster": [
+    0.339,
+    -0.308
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.18607525054956361,
+   "upright": 0.9999942732043575
+  },
+  {
+   "i": 1,
+   "cup": [
+    0.304,
+    -0.278
+   ],
+   "coaster": [
+    0.332,
+    -0.142
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.06643466195453898,
+   "upright": 0.06441140113569967
+  },
+  {
+   "i": 2,
+   "cup": [
+    0.363,
+    -0.292
+   ],
+   "coaster": [
+    0.311,
+    -0.045
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.11494032028833805,
+   "upright": -0.002538901705663824
+  },
+  {
+   "i": 3,
+   "cup": [
+    0.349,
+    -0.07
+   ],
+   "coaster": [
+    0.31,
+    -0.211
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1466426343260552,
+   "upright": 1.0
+  },
+  {
+   "i": 4,
+   "cup": [
+    0.294,
+    -0.047
+   ],
+   "coaster": [
+    0.349,
+    -0.282
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 0.03207216396099568,
+   "upright": 0.00348717730873372
+  },
+  {
+   "i": 5,
+   "cup": [
+    0.271,
+    -0.277
+   ],
+   "coaster": [
+    0.329,
+    -0.131
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.3244939291937245,
+   "upright": 0.001193748932033778
+  },
+  {
+   "i": 6,
+   "cup": [
+    0.393,
+    -0.018
+   ],
+   "coaster": [
+    0.358,
+    -0.209
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.19474847630239966,
+   "upright": 0.9999949329071616
+  },
+  {
+   "i": 7,
+   "cup": [
+    0.381,
+    -0.082
+   ],
+   "coaster": [
+    0.348,
+    -0.305
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.21760298052971025,
+   "upright": -0.0026691324752272667
+  },
+  {
+   "i": 8,
+   "cup": [
+    0.327,
+    -0.322
+   ],
+   "coaster": [
+    0.359,
+    -0.02
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.16428228222503927,
+   "upright": 6.141673682402704e-07
+  },
+  {
+   "i": 9,
+   "cup": [
+    0.277,
+    -0.158
+   ],
+   "coaster": [
+    0.373,
+    -0.236
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1237522884247607,
+   "upright": 1.0
+  },
+  {
+   "i": 10,
+   "cup": [
+    0.299,
+    -0.241
+   ],
+   "coaster": [
+    0.396,
+    -0.126
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.14968811176520294,
+   "upright": 0.999995072263398
+  },
+  {
+   "i": 11,
+   "cup": [
+    0.281,
+    -0.236
+   ],
+   "coaster": [
+    0.294,
+    -0.068
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.2169107845618356,
+   "upright": 2.5218358288822684e-05
+  },
+  {
+   "i": 12,
+   "cup": [
+    0.372,
+    -0.212
+   ],
+   "coaster": [
+    0.35,
+    -0.079
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 0.1131994763648744,
+   "upright": -0.06836186011229939
+  },
+  {
+   "i": 13,
+   "cup": [
+    0.319,
+    -0.115
+   ],
+   "coaster": [
+    0.322,
+    -0.237
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 0.05667733688552512,
+   "upright": 0.9877633539331542
+  },
+  {
+   "i": 14,
+   "cup": [
+    0.309,
+    -0.321
+   ],
+   "coaster": [
+    0.304,
+    -0.201
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.0261005231529528,
+   "upright": 0.0043125690238127665
+  },
+  {
+   "i": 15,
+   "cup": [
+    0.32,
+    -0.093
+   ],
+   "coaster": [
+    0.297,
+    -0.299
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.2805056276481226,
+   "upright": -0.00264007498958469
+  },
+  {
+   "i": 16,
+   "cup": [
+    0.304,
+    -0.296
+   ],
+   "coaster": [
+    0.325,
+    -0.057
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 0.08652558369478995,
+   "upright": -0.04628819654241262
+  },
+  {
+   "i": 17,
+   "cup": [
+    0.395,
+    -0.251
+   ],
+   "coaster": [
+    0.301,
+    -0.168
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.12555278165107434,
+   "upright": 0.9999970493744997
+  },
+  {
+   "i": 18,
+   "cup": [
+    0.359,
+    -0.169
+   ],
+   "coaster": [
+    0.382,
+    -0.327
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.36337005286319507,
+   "upright": -0.002434350403591093
+  },
+  {
+   "i": 19,
+   "cup": [
+    0.282,
+    -0.285
+   ],
+   "coaster": [
+    0.335,
+    -0.143
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1515587830452959,
+   "upright": 1.0
+  },
+  {
+   "i": 20,
+   "cup": [
+    0.322,
+    -0.034
+   ],
+   "coaster": [
+    0.28,
+    -0.191
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 0.20836300842887465,
+   "upright": 0.5834682604913692
+  },
+  {
+   "i": 21,
+   "cup": [
+    0.286,
+    -0.149
+   ],
+   "coaster": [
+    0.349,
+    -0.265
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.13242979037202005,
+   "upright": 0.9999947176567588
+  },
+  {
+   "i": 22,
+   "cup": [
+    0.345,
+    -0.301
+   ],
+   "coaster": [
+    0.272,
+    -0.128
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.09041283932151567,
+   "upright": 0.9999975934109184
+  },
+  {
+   "i": 23,
+   "cup": [
+    0.329,
+    -0.02
+   ],
+   "coaster": [
+    0.274,
+    -0.313
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.29832619332030913,
+   "upright": 1.0
+  },
+  {
+   "i": 24,
+   "cup": [
+    0.352,
+    -0.272
+   ],
+   "coaster": [
+    0.392,
+    -0.132
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.0738607699621628,
+   "upright": -0.06040898423467155
+  },
+  {
+   "i": 25,
+   "cup": [
+    0.286,
+    -0.32
+   ],
+   "coaster": [
+    0.347,
+    -0.167
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.08481191454035143,
+   "upright": -0.022755935942322964
+  },
+  {
+   "i": 26,
+   "cup": [
+    0.274,
+    -0.128
+   ],
+   "coaster": [
+    0.394,
+    -0.231
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1593785303627544,
+   "upright": 0.9999942848321427
+  },
+  {
+   "i": 27,
+   "cup": [
+    0.391,
+    -0.255
+   ],
+   "coaster": [
+    0.363,
+    -0.105
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.1532040026510952,
+   "upright": 1.0
+  },
+  {
+   "i": 28,
+   "cup": [
+    0.292,
+    -0.009
+   ],
+   "coaster": [
+    0.313,
+    -0.15
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.10463441415571667,
+   "upright": -0.0006611286320523518
+  },
+  {
+   "i": 29,
+   "cup": [
+    0.293,
+    -0.308
+   ],
+   "coaster": [
+    0.316,
+    -0.183
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.12578913708559517,
+   "upright": -0.002677472770400008
+  },
+  {
+   "i": 30,
+   "cup": [
+    0.38,
+    -0.258
+   ],
+   "coaster": [
+    0.35,
+    -0.014
+   ],
+   "success": true,
+   "grasp_held": true,
+   "placed": true,
+   "dist": 0.010709764581521914,
+   "upright": 0.9999972601569111
+  },
+  {
+   "i": 31,
+   "cup": [
+    0.322,
+    -0.136
+   ],
+   "coaster": [
+    0.389,
+    -0.29
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.16858534123466629,
+   "upright": 0.9999975889276573
+  },
+  {
+   "i": 32,
+   "cup": [
+    0.346,
+    -0.135
+   ],
+   "coaster": [
+    0.367,
+    -0.317
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.18309930172480063,
+   "upright": 0.9999964364141769
+  },
+  {
+   "i": 33,
+   "cup": [
+    0.272,
+    -0.077
+   ],
+   "coaster": [
+    0.396,
+    -0.166
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.15179303677268102,
+   "upright": 0.9999943062932792
+  },
+  {
+   "i": 34,
+   "cup": [
+    0.384,
+    -0.325
+   ],
+   "coaster": [
+    0.288,
+    -0.195
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.248569239889831,
+   "upright": -0.002474511801291761
+  },
+  {
+   "i": 35,
+   "cup": [
+    0.394,
+    -0.233
+   ],
+   "coaster": [
+    0.301,
+    -0.323
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.19215036623965293,
+   "upright": 0.0023847481127333273
+  },
+  {
+   "i": 36,
+   "cup": [
+    0.344,
+    -0.169
+   ],
+   "coaster": [
+    0.329,
+    -0.322
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.15419462601905132,
+   "upright": 0.9999975937640179
+  },
+  {
+   "i": 37,
+   "cup": [
+    0.376,
+    -0.026
+   ],
+   "coaster": [
+    0.397,
+    -0.232
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.18676613571784872,
+   "upright": -0.002682709399874056
+  },
+  {
+   "i": 38,
+   "cup": [
+    0.285,
+    -0.296
+   ],
+   "coaster": [
+    0.362,
+    -0.062
+   ],
+   "success": false,
+   "grasp_held": true,
+   "placed": false,
+   "dist": 0.6476753498250651,
+   "upright": -6.285023731729227e-07
+  },
+  {
+   "i": 39,
+   "cup": [
+    0.289,
+    -0.177
+   ],
+   "coaster": [
+    0.311,
+    -0.007
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.23687328216417072,
+   "upright": -0.0023226276150471225
+  },
+  {
+   "i": 40,
+   "cup": [
+    0.279,
+    -0.136
+   ],
+   "coaster": [
+    0.344,
+    -0.298
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.17505908854539606,
+   "upright": 0.9999975046344732
+  },
+  {
+   "i": 41,
+   "cup": [
+    0.296,
+    -0.162
+   ],
+   "coaster": [
+    0.388,
+    -0.259
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.13426338354370343,
+   "upright": 0.9999991213345182
+  },
+  {
+   "i": 42,
+   "cup": [
+    0.281,
+    -0.057
+   ],
+   "coaster": [
+    0.368,
+    -0.255
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.2161407767076911,
+   "upright": 1.0
+  },
+  {
+   "i": 43,
+   "cup": [
+    0.391,
+    -0.288
+   ],
+   "coaster": [
+    0.281,
+    -0.173
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.22886449107940485,
+   "upright": 0.0023711806809390557
+  },
+  {
+   "i": 44,
+   "cup": [
+    0.355,
+    -0.189
+   ],
+   "coaster": [
+    0.385,
+    -0.005
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.18685681522031164,
+   "upright": 0.9999974579356141
+  },
+  {
+   "i": 45,
+   "cup": [
+    0.307,
+    -0.205
+   ],
+   "coaster": [
+    0.341,
+    -0.017
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.2456526512384849,
+   "upright": 6.28465134294709e-07
+  },
+  {
+   "i": 46,
+   "cup": [
+    0.295,
+    -0.033
+   ],
+   "coaster": [
+    0.313,
+    -0.211
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.17891294893472837,
+   "upright": 0.9999970191413423
+  },
+  {
+   "i": 47,
+   "cup": [
+    0.397,
+    -0.228
+   ],
+   "coaster": [
+    0.328,
+    -0.089
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.08785708891914665,
+   "upright": 0.9999975140030823
+  },
+  {
+   "i": 48,
+   "cup": [
+    0.334,
+    -0.201
+   ],
+   "coaster": [
+    0.29,
+    -0.057
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.21742564090149918,
+   "upright": -0.0025289720619123346
+  },
+  {
+   "i": 49,
+   "cup": [
+    0.336,
+    -0.269
+   ],
+   "coaster": [
+    0.335,
+    -0.118
+   ],
+   "success": false,
+   "grasp_held": false,
+   "placed": false,
+   "dist": 0.3305776534338825,
+   "upright": 0.0014956227918234838
+  }
+ ]
+}
