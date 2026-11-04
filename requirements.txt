@@ -1,0 +1,16 @@
+# Python 3.11 (MediaPipe has no wheels for 3.13+)
+mujoco>=3.2
+numpy<2.3
+scipy
+opencv-python-headless
+mediapipe==0.10.21
+imageio
+imageio-ffmpeg
+pandas
+pyarrow
+huggingface_hub
+matplotlib
+tqdm
+# torch: install CUDA 12.8 build for RTX 50xx (sm_120):
+#   pip install torch --index-url https://download.pytorch.org/whl/cu128
+torch>=2.7
