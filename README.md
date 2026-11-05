@@ -14,7 +14,7 @@ The source human video that drives the robot, shown as GIFs.
 
 | human demo 1 | human demo 2 |
 |---|---|
-| ![](ezgif-318cd6d514d1aad8.gif) | ![](ezgif-3aa61bae9eff255f.gif) |
+| ![](data/sample/ezgif-318cd6d514d1aad8.gif) | ![](data/sample/ezgif-3aa61bae9eff255f.gif) |
 
 ## Contents
 - [Overview](#overview)
