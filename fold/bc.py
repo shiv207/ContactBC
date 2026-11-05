@@ -29,11 +29,16 @@ HIER = {"dart+sub": dict(ki=True, use_time=True), "dart+sub-ki": dict(ki=False, 
 # (fold/self_improve.py, RECAP-style self-improvement), and so on for later rounds.
 # +q: quality filter, drop training episodes whose fold ended more than MAX_CORNER from the target.
 VARIANTS.update({v: ("dart", False) for v in ["dart+rel", "dart+rel+self", "dart+rel+self2", "dart+rel+self2+q",
-                                                  "dart+rel+self2+rec"]})
-REL = {"dart+rel", "dart+rel+self", "dart+rel+self2", "dart+rel+self2+q", "dart+rel+self2+rec"}
+                                                  "dart+rel+self2+rec", "dart+rel+self2+rec2"]})
+REL = {"dart+rel", "dart+rel+self", "dart+rel+self2", "dart+rel+self2+q", "dart+rel+self2+rec", "dart+rel+self2+rec2"}
 EXTRA = {"dart+rel+self": ["data/fold_self_r1"], "dart+rel+self2": ["data/fold_self_r1", "data/fold_self_r2"],
          "dart+rel+self2+q": ["data/fold_self_r1", "data/fold_self_r2"],
-         "dart+rel+self2+rec": ["data/fold_self_r1", "data/fold_self_r2", "data/fold_recovery"]}   # fold/recovery.py
+         "dart+rel+self2+rec": ["data/fold_self_r1", "data/fold_self_r2", "data/fold_recovery"],   # fold/recovery.py
+         "dart+rel+self2+rec2": ["data/fold_self_r1", "data/fold_self_r2", "data/fold_recovery",
+                                 "data/fold_recovery_vary"]}
+# rec2: recovery frames were ~11% of the data in rec and the policy never learned to retry, so sample them as a
+# fixed share of every batch.
+OVERSAMPLE = {"dart+rel+self2+rec2": ({"data/fold_recovery", "data/fold_recovery_vary"}, 0.3)}
 MAX_CORNER = {"dart+rel+self2+q": 0.035}
 HAND_DIMS = np.r_[7:14, 21:28]
 
@@ -57,11 +62,12 @@ def event_mask(grasp, w=CG_WIN):
     return m
 
 
-def load(source, subtasks=False, rel=False, extra=(), max_corner=None):
+def load(source, subtasks=False, rel=False, extra=(), max_corner=None, mark=()):
+    """mark: data dirs (as in EXTRA) whose frames are flagged in an extra boolean output (for oversampling)."""
     dirs = [ROOT / "data/fold_demos"] + ([ROOT / "data/fold_augmented"] if source in ("aug", "dart") else []) \
         + ([ROOT / "data/fold_dart"] if source == "dart" else []) + [ROOT / x for x in extra]
     from fold.subtask import labels
-    O, A, M, Y = [], [], [], []
+    O, A, M, Y, S = [], [], [], [], []
     for d in dirs:
         for f in sorted(d.glob("*.npz")):
             e = np.load(f)
@@ -74,9 +80,11 @@ def load(source, subtasks=False, rel=False, extra=(), max_corner=None):
             A.append((act[idx] - obs[:, None, :NQ]).reshape(T, -1))
             M.append(event_mask(e["grasp"]))
             Y.append(labels(T, int(e["k_grasp"]), int(e["k_release"])))
+            S.append(np.full(T, str(d.relative_to(ROOT)) in mark))
     print(f"{source}{'+' + '+'.join(extra) if extra else ''}: {len(O)} episodes, {sum(len(o) for o in O)} frames")
     out = np.concatenate(O), np.concatenate(A), np.concatenate(M)
-    return out + (np.concatenate(Y),) if subtasks else out
+    out = out + (np.concatenate(Y),) if subtasks else out
+    return out + (np.concatenate(S),) if mark else out
 
 
 class Policy(nn.Module):
@@ -149,7 +157,14 @@ def train(variant, seed=0, steps=30000, bs=1024, lr=1e-3, device="cuda"):
     torch.manual_seed(seed); np.random.seed(seed)
     src, cg = VARIANTS[variant]
     rel = variant in REL
-    O, A, M, Y = load(src, subtasks=True, rel=rel, extra=EXTRA.get(variant, ()), max_corner=MAX_CORNER.get(variant))
+    over_dirs, over_frac = OVERSAMPLE.get(variant, (set(), 0.0))
+    O, A, M, Y, *S = load(src, subtasks=True, rel=rel, extra=EXTRA.get(variant, ()), max_corner=MAX_CORNER.get(variant),
+                          mark=over_dirs)
+    if over_dirs:                 # sampling probabilities: marked frames get over_frac of the mass in total
+        S = S[0]
+        P = np.where(S, over_frac / S.sum(), (1 - over_frac) / (~S).sum())
+        print(f"  oversampling {S.mean():.1%} of frames to {over_frac:.0%} of each batch")
+        P = torch.tensor(P, dtype=torch.float32, device=device)
     hier = variant in HIER
     pol = (HierPolicy(O.shape[1], A.shape[1], **HIER[variant]) if hier
            else Policy(O.shape[1], A.shape[1], rel=rel)).to(device)
@@ -163,7 +178,7 @@ def train(variant, seed=0, steps=30000, bs=1024, lr=1e-3, device="cuda"):
     opt = torch.optim.AdamW(pol.parameters(), lr=lr, weight_decay=1e-4)
     sch = torch.optim.lr_scheduler.CosineAnnealingLR(opt, steps)
     for it in range(steps):
-        i = torch.randint(0, len(O), (bs,), device=device)
+        i = torch.multinomial(P, bs, replacement=True) if over_dirs else torch.randint(0, len(O), (bs,), device=device)
         o = O[i] + 0.01 * torch.randn_like(O[i]) * pol.o_sd
         if hier:                 # teacher forcing: System 1 sees the annotated subtask during training
             pred, logits = pol(o, Y[i])

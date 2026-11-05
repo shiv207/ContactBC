@@ -27,17 +27,18 @@ from retarget import smooth                          # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 RT, OPEN_N, MOVE_N = 30, 8, 16            # inserted recovery steps: open over 8, move over 16, settle the rest
-MISS_UP, MISS_OUT = 0.025, 0.025
+MISS_UP, MISS_OUT = 0.025, 0.025          # fixed offsets (--vary off)
+VARY_UP, VARY_OUT, VARY_ANG = (0.01, 0.035), (0.02, 0.045), np.radians(60)   # --vary: randomized miss
 C0 = N_REACH + DWELL                      # = base k_grasp (end of the first close)
 
 
 class RecoveryPlan:
-    def __init__(self, base, miss, out_dir):
-        """miss: side that misses; out_dir: (2,) unit xy vector pointing outward from the cloth at that corner."""
+    def __init__(self, base, miss, out_dir, up=MISS_UP, out=MISS_OUT):
+        """miss: side that misses; out_dir: (2,) unit xy vector pointing away from the cloth at that corner."""
         self.base, self.miss, self.name = base, miss, base.name
         self.shift = RT + DWELL
         self.T, self.k_grasp, self.k_release = base.T + self.shift, base.k_grasp + self.shift, base.k_release + self.shift
-        self.off = np.r_[MISS_OUT * out_dir, MISS_UP]
+        self.off = np.r_[out * out_dir, up]
         open_ramp = 1 - smooth(np.clip(np.arange(RT) / OPEN_N, 0, 1))
         self.hand = {}
         for sd in SIDES:
@@ -69,7 +70,7 @@ class RecoveryPlan:
         return out
 
 
-def _trial(i, seed=0, out=None):
+def _trial(i, seed=0, out=None, vary=False):
     rng = np.random.default_rng(seed * 100003 + i)
     names = R._W.get("ok_names")
     if names is None:
@@ -83,7 +84,12 @@ def _trial(i, seed=0, out=None):
     miss = SIDES[rng.integers(2)]
     k = SIDES.index(miss)
     d = (c[k] - c.mean(0))[:2]; d /= np.linalg.norm(d)
-    plan = RecoveryPlan(base, miss, d)
+    if vary:              # policy misses vary in size and direction: rotate the outward vector, random magnitudes
+        a = rng.uniform(-VARY_ANG, VARY_ANG); ca, sa = np.cos(a), np.sin(a)
+        d = np.array([ca * d[0] - sa * d[1], sa * d[0] + ca * d[1]])
+        plan = RecoveryPlan(base, miss, d, up=rng.uniform(*VARY_UP), out=rng.uniform(*VARY_OUT))
+    else:
+        plan = RecoveryPlan(base, miss, d)
     ep = R.run_episode(s, R._W["ik"], plan, xy, yaw)
     G = ep["grasp"]
     missed = G[C0 + 2, k] == 0 and G[C0 + 2, 1 - k] == 1       # the scripted miss really missed
@@ -100,6 +106,7 @@ if __name__ == "__main__":
     ap.add_argument("--workers", type=int, default=20)
     ap.add_argument("--seed", type=int, default=11)
     ap.add_argument("--out", default="data/fold_recovery")
+    ap.add_argument("--vary", action="store_true", help="randomize the miss offset (size and direction)")
     a = ap.parse_args()
     out = ROOT / a.out; out.mkdir(parents=True, exist_ok=True)
     for f in out.glob("*.npz"):
@@ -107,7 +114,7 @@ if __name__ == "__main__":
     from functools import partial
     log, n = [], 0
     with Pool(a.workers, initializer=R._init) as pool:
-        for r in pool.imap_unordered(partial(_trial, seed=a.seed, out=out), range(a.max_trials), chunksize=2):
+        for r in pool.imap_unordered(partial(_trial, seed=a.seed, out=out, vary=a.vary), range(a.max_trials), chunksize=2):
             log.append(r); n += r["success"]
             if len(log) % 100 == 0:
                 print(f"trials {len(log)} kept {n}  scripted miss took effect {np.mean([x['missed'] for x in log]):.0%}", flush=True)
@@ -115,5 +122,5 @@ if __name__ == "__main__":
                 pool.terminate(); break
     s = dict(trials=len(log), kept=n, miss_rate=float(np.mean([x["missed"] for x in log])),
              fold_rate=float(np.mean([x["folded"] for x in log])))
-    json.dump(s, open(ROOT / "outputs/fold_recovery_summary.json", "w"), indent=1)
+    json.dump(s, open(ROOT / f"outputs/fold_recovery_summary_{out.name}.json", "w"), indent=1)
     print(s)

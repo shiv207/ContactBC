@@ -16,7 +16,8 @@ behavior cloning → RL fine-tuning, with an unsupervised check on the learned b
 
 ### Results
 
-> These are the first v2 results, on the original scene. The current best policy is 84 ± 6% (`dart+rel+self2+rec`);
+> These are the first v2 results, on the original scene. The current best policy is `dart+rel+self2+rec`, at 81.3%
+> on 450 held-out rollouts (`dart`: 77.6%);
 > see [DART data and FineART-style subtask conditioning](#dart-data-and-fineart-style-subtask-conditioning) and the
 > section after it.
 
@@ -106,17 +107,34 @@ Each fix below adds to the previous row; 50 held-out rollouts × 3 seeds:
 | `dart+rel+self2+q` | drop training episodes that ended > 3.5 cm off | **72 ± 9%** | 3.1 cm | 37, 30, 41 |
 | `dart+rel+self2+rec` | + 300 recovery demos: one hand misses on purpose, reopens and re-grasps (`fold/recovery.py`) | **84 ± 6%** | 2.7 cm | 41, 46, 39 |
 
-On 150 held-out poses (`ens:` = average of the 3 seeds' action chunks): `ens:dart` **78.7%**, `ens:dart+rel+self2`
-**78.0%**, `ens:dart+rel+self2+rec` **81.3%** (±6% 95% CI each).
+| `dart+rel+self2+rec2` | + 600 more recovery demos with randomized miss offsets, recovery frames oversampled to 30% of each batch | see below | | |
+
+**Final comparison: 150 held-out poses × 3 seeds (450 rollouts per variant), paired by pose:**
+
+| variant | success | one hand missed | misplaced | dropped | vs `dart` (pose-paired wins / losses, sign test) |
+|---|---|---|---|---|---|
+| `dart` | **77.6 ± 3.9%** (78, 78, 77) | 28 | 59 | 9 | |
+| `dart+rel+self2+rec` | **81.3 ± 3.6%** (81, 80, 83) | 20 | 41 | 16 | 69 / 52, p = 0.15 |
+| `dart+rel+self2+rec2` | **74.7 ± 4.0%** (73, 75, 76) | 22 | 56 | 28 | 60 / 73, p = 0.30 (and worse than `rec`, p = 0.005) |
+
+Seed ensembles (`ens:`, the 3 seeds' action chunks averaged) on 150 poses: `ens:dart` 78.7%,
+`ens:dart+rel+self2` 78.0%, `ens:dart+rel+self2+rec` 81.3%.
 
 What this says:
-- **The fixes help by a few points at most, which is not significant.** `dart+rel+self2+rec` has the best mean and
-  the lowest corner error. On the larger 150-pose set its paired advantage over `dart` is 17 wins to 13 (sign
-  test p = 0.59).
+- **Best policy: `dart+rel+self2+rec`, at 81.3% vs 77.6% (+3.7 points).** The gain is consistent across seeds
+  (80–83 vs 77–78), and it misses fewer grasps and misplaces fewer folds. With 450 paired rollouts it is still not
+  significant (p = 0.15). The 84% on 50 poses overstated it.
+- **50 poses × 3 seeds was too small for these effects.** Its ±5% seed spread hid 3–5 point differences and made
+  the 84% look like a clear win. Compare candidates on 150+ poses, paired by pose.
 - **Hand-relative features fixed the targeted failure but added another.** Missed grasps fell from 6 to 2, but
   one-hand lifts that fling the cloth rose from 5 to 13. Self-improvement on verified-calm folds recovered that.
-- **The policy did not learn the retry.** With recovery demos at about 11% of the data, policies still almost never
-  re-close a missed hand (1 multi-close in 50 rollouts), and missed grasps stay around 8 per 150.
+- **The policy did not learn the retry.** With recovery demos at about 11% of the data, policies almost never
+  re-close a missed hand.
+- **Oversampling recovery demos made it worse.** Oversampled to 30% of each batch (`rec2`), they didn't make the
+  policy retry either: missed grasps stayed at 22 vs 20. Instead it dropped the cloth more mid-fold (28 vs 16), as
+  if it had learned "open the hand" rather than "re-grasp after a miss". Learning a retry from demonstrations
+  probably needs the miss state to look like the policy's own misses. RL could also do it, with a reward for
+  regaining the grasp.
 - **Quality filtering hurt.** Dropping the less precise DART episodes also drops the correction data, and one seed
   collapsed.
 - **Seed ensembling did not help.** Averaging the seeds' chunks performs like a single seed.
@@ -129,7 +147,9 @@ python fold/self_improve.py --variant dart+rel+self --round 2 --out data/fold_se
 python fold/recovery.py --target 300
 python fold/bc.py --variants dart+rel+self2 dart+rel+self2+rec
 python fold/eval.py --variants dart+rel dart+rel+self dart+rel+self2 dart+rel+self2+rec       # merges into results
-python fold/eval.py --variants ens:dart ens:dart+rel+self2+rec --seeds 0 -n 150
+python fold/recovery.py --target 600 --vary --seed 12 --out data/fold_recovery_vary
+python fold/bc.py --variants dart+rel+self2+rec2
+python fold/eval.py --variants dart dart+rel+self2+rec dart+rel+self2+rec2 -n 150          # final comparison
 ```
 
 ### Unsupervised phase check (`fold/phases.py`)
