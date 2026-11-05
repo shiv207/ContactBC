@@ -8,13 +8,17 @@ behavior cloning → RL fine-tuning, with an unsupervised check on the learned b
   cloth in half.
 - **[v1, cup on a coaster](#v1-cup-on-a-coaster)**: the first, single-hand version (7 videos).
 
-| human strokes replayed on the G1 | learned policy (BC + RL), held-out cloth pose | learned policy failure |
+| human strokes replayed on the G1 | learned policy (`dart+rel+self2+rec`), held-out cloth pose | learned policy failure |
 |---|---|---|
-| ![](outputs/gifs/fold_replay_r0002_0233_success.gif) | ![](outputs/gifs/fold_eval_aug_rl_00_success.gif) | ![](outputs/gifs/fold_eval_aug_rl_01_fail.gif) |
+| ![](outputs/gifs/fold_replay_r0002_0233_success.gif) | ![](outputs/gifs/fold_eval_dart_rel_self2_rec_00_success.gif) | ![](outputs/gifs/fold_eval_dart_rel_self2_rec_02_fail.gif) |
 
 ## v2: bimanual cloth folding
 
 ### Results
+
+> These are the first v2 results, on the original scene. The current best policy is 84 ± 6% (`dart+rel+self2+rec`);
+> see [DART data and FineART-style subtask conditioning](#dart-data-and-fineart-style-subtask-conditioning) and the
+> section after it.
 
 `outputs/fold_results.md`: 50 closed-loop rollouts per training seed on randomized cloth poses (center ±2/±5 cm, yaw
 ±15°), drawn from an RNG seed never used for data generation.
@@ -38,6 +42,95 @@ What this says:
 - **Contact-gated loss: no effect** (11% vs 11%), consistent with v1.
 - **Dominant failure: the policy never grasps** (41% of `aug` rollouts). It hovers above the cloth and never
   commits to the descent. 16% drop the cloth mid-fold, and 32% hold it but misplace it.
+
+### DART data and FineART-style subtask conditioning
+
+Later runs use the current scene (joint-rate limit, IK null-space posture) and count a flung cloth as a failure.
+50 held-out rollouts × 3 seeds:
+
+| variant | what changes | success | final corner error | per-seed |
+|---|---|---|---|---|
+| `dart` | BC on demos + augmented + 507 DART episodes (noise on the executed arm targets, clean expert labels) | **79 ± 4%** | 3.4 cm | 42, 37, 40 /50 |
+| `dart+sub` | FineART hierarchy + knowledge insulation | **64 ± 4%** | 4.7 cm | 31, 30, 35 /50 |
+| `dart+sub-ki` | FineART hierarchy, shared trunk (no KI) | **77 ± 5%** | 3.9 cm | 35, 41, 40 /50 |
+| `dart+sub-t` | FineART hierarchy + KI, no clock input | **65 ± 5%** | 4.7 cm | 32, 36, 30 /50 |
+
+**FineART method** ([arXiv 2609.36416](https://arxiv.org/abs/2609.36416), adapted to a state-based MLP in `fold/subtask.py` + `fold/bc.py`):
+- Every demo frame gets a captioned subtask label: reach, descend, grasp, lift, carry, lower, release, retreat.
+  The labels come from the planner's stage boundaries, so they are exact.
+- A System-2 head predicts the current subtask from the observation. A System-1 head predicts the action chunk from
+  the observation, System 2's features and a subtask embedding.
+- Training uses teacher forcing (the annotated subtask) and the paper's loss weights, 10 × action MSE + 1 × subtask
+  cross-entropy. At test time System 1 uses System 2's own prediction.
+- Knowledge insulation (KI) passes System 2's features to System 1 through a stop-gradient.
+
+**Result: no gain.** At best the hierarchy matches plain DART (77% vs 79%, within seed noise). With knowledge
+insulation it is clearly worse (64%): the action head underfits, with about 1.7× the training MSE.
+- **The subtask head is accurate on the training distribution but tracks time, not contact.** It is 99.5% accurate
+  on training frames. In "never grasped" failures it still steps grasp → lift → carry with an empty hand, because no
+  demo contains a missed grasp.
+- **Knowing the subtask does not let the policy recover from a missed grasp.** That is the dominant failure mode
+  here, and it needs recovery data, which this method does not provide.
+- **The paper's gains came from elsewhere.** They came from language-specified spatial goals and human
+  step-by-step guidance; neither exists in this single-goal task. The paper's own autonomous long-horizon result is
+  0% for both arms.
+- **Failure split over 150 rollouts:**
+  - `dart`: 16 misplaced, 10 never grasped, 4 dropped.
+  - `dart+sub`: 32 misplaced, 20 never grasped.
+  - Most `dart` misplacements end 5.0–5.5 cm from the target, just over the 5 cm threshold.
+
+Each eval rollout logs the policy's own subtask trace (`subtasks` in `outputs/fold_results.json`):
+
+```bash
+python fold/bc.py --variants dart+sub dart+sub-ki dart+sub-t --seeds 0 1 2
+python fold/eval.py --variants dart dart+sub dart+sub-ki dart+sub-t
+```
+
+### Targeted fixes: hand-relative features, self-improvement, recovery demos
+
+**Diagnosis first** (logging which vertex each hand welds to):
+- **Grasp misses.** Every "never grasped" `dart` failure is one hand, usually the left, stopping 3–4 cm short of
+  its corner when the cloth sits close to the body with positive yaw. IK reaches those corners to within 1 cm, so
+  the error is the policy's, not a kinematic limit. The other hand then lifts the cloth by one corner, which is
+  also what the "flung" failures are.
+- **Misplacements.** These grasp the correct vertex and end 5.0–5.5 cm off, just over the 5 cm success limit.
+
+Each fix below adds to the previous row; 50 held-out rollouts × 3 seeds:
+
+| variant | adds | success | corner err. | per-seed |
+|---|---|---|---|---|
+| `dart` | baseline | **79 ± 4%** | 3.4 cm | 42, 37, 40 |
+| `dart+rel` | grasp-site positions + offsets to the near and far corners, from forward kinematics (`fold/features.py`) | **75 ± 2%** | 3.7 cm | 36, 39, 38 |
+| `dart+rel+self` | + 570 of the policy's own verified-clean folds on training poses (`fold/self_improve.py`, RECAP-style) | **80 ± 2%** | 2.9 cm | 40, 39, 41 |
+| `dart+rel+self2` | + a second round (592 more) from the round-1 policies | **81 ± 4%** | 3.1 cm | 43, 41, 38 |
+| `dart+rel+self2+q` | drop training episodes that ended > 3.5 cm off | **72 ± 9%** | 3.1 cm | 37, 30, 41 |
+| `dart+rel+self2+rec` | + 300 recovery demos: one hand misses on purpose, reopens and re-grasps (`fold/recovery.py`) | **84 ± 6%** | 2.7 cm | 41, 46, 39 |
+
+On 150 held-out poses (`ens:` = average of the 3 seeds' action chunks): `ens:dart` **78.7%**, `ens:dart+rel+self2`
+**78.0%**, `ens:dart+rel+self2+rec` **81.3%** (±6% 95% CI each).
+
+What this says:
+- **The fixes help by a few points at most, which is not significant.** `dart+rel+self2+rec` has the best mean and
+  the lowest corner error. On the larger 150-pose set its paired advantage over `dart` is 17 wins to 13 (sign
+  test p = 0.59).
+- **Hand-relative features fixed the targeted failure but added another.** Missed grasps fell from 6 to 2, but
+  one-hand lifts that fling the cloth rose from 5 to 13. Self-improvement on verified-calm folds recovered that.
+- **The policy did not learn the retry.** With recovery demos at about 11% of the data, policies still almost never
+  re-close a missed hand (1 multi-close in 50 rollouts), and missed grasps stay around 8 per 150.
+- **Quality filtering hurt.** Dropping the less precise DART episodes also drops the correction data, and one seed
+  collapsed.
+- **Seed ensembling did not help.** Averaging the seeds' chunks performs like a single seed.
+
+```bash
+python fold/bc.py --variants dart+rel --seeds 0 1 2
+python fold/self_improve.py --variant dart+rel --round 1 --out data/fold_self_r1
+python fold/bc.py --variants dart+rel+self
+python fold/self_improve.py --variant dart+rel+self --round 2 --out data/fold_self_r2
+python fold/recovery.py --target 300
+python fold/bc.py --variants dart+rel+self2 dart+rel+self2+rec
+python fold/eval.py --variants dart+rel dart+rel+self dart+rel+self2 dart+rel+self2+rec       # merges into results
+python fold/eval.py --variants ens:dart ens:dart+rel+self2+rec --seeds 0 -n 150
+```
 
 ### Unsupervised phase check (`fold/phases.py`)
 

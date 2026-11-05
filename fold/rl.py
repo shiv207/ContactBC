@@ -2,6 +2,7 @@
 
   action = BC_ensembled(obs, t) + delta,   delta ~ N(mu_theta(obs), sigma)  on the 14 arm joints only
   reward = +1 per hand on its first grasp
+           - penalty for cloth vertex speed > 2.5 m/s or cloth > 30 cm above the table (no throwing)
            + 10 * (phi(s') - phi(s)) while BOTH hands hold the cloth (no reward for dragging it)
            - 1 if a hand lets go before the near corners are within 6 cm of the far corners
            - small action penalty, +3 at the end if the fold is verified
@@ -62,7 +63,8 @@ def _episode(args):
     sd, i, it, deterministic = args
     from fold.bc import Ensembler, with_phase
     from fold.augment import sample_pose
-    from fold.replay import obs_vec, home_q, label_state
+    from fold.replay import obs_vec, home_q, label_state, calm_check, MAX_LIFT, MAX_SPEED
+    from scene import TABLE_Z
     s, ik = _W["s"], _W["ik"]
     ac = _W.get("ac")
     if ac is None or _W.get("ac_it") != it:
@@ -74,6 +76,7 @@ def _episode(args):
     O, Aa, LP, R, G = [], [], [], [], []
     phi = potential(s)
     grasped_once = np.zeros(2, bool); prev_g = np.zeros(2)
+    v_prev = s.verts(); top, low, spd = [], [], []
     for t in range(H):
         o = obs_vec(s); op = with_phase(o, t)
         base = ens.act(o, t)
@@ -92,12 +95,16 @@ def _episode(args):
         r += 1.0 * new_grasp.sum(); grasped_once |= g > 0
         if ((prev_g > 0) & (g == 0)).any() and phi2 < -0.06:
             r -= 1.0                                      # let go before the near corners reached the far ones
+        v = s.verts(); sp = np.linalg.norm(v - v_prev, axis=1).max() * 30; v_prev = v
+        top.append(v[:, 2].max()); low.append(v[:, 2].min()); spd.append(sp)
+        r -= 0.5 * max(0.0, sp - MAX_SPEED) + 5.0 * max(0.0, v[:, 2].max() - TABLE_Z - MAX_LIFT)   # no throwing
         R.append(r); phi = phi2; prev_g = g
         O.append(op); Aa.append(u); LP.append(lp); G.append(s.grasp_state())
     G = np.array(G); held = np.flatnonzero(G.max(1) > 0)
     tr = slice(held[0], held[-1] + 1) if len(held) else slice(0, 0)
     lab = label_state(s, G, tr)
-    ok = bool(lab["success"]) and len(held) > 0
+    ok = bool(calm_check(dict(success=lab["success"], cloth_top=np.array(top), cloth_low=np.array(low),
+                              cloth_speed=np.array(spd)))["success"]) and len(held) > 0
     R[-1] += 3.0 * ok
     return dict(obs=np.array(O, np.float32), act=np.array(Aa, np.float32), logp=np.array(LP, np.float32),
                 rew=np.array(R, np.float32), success=ok, corner=float(lab["corner_dist"]))
@@ -114,8 +121,8 @@ def gae(rew, val, gamma=0.99, lam=0.95):
 
 def train(base="aug", seed=0, iters=30, eps_per_iter=40, workers=20, device="cuda"):
     torch.manual_seed(seed)
-    from fold.bc import load as load_data
-    O, _, _ = load_data("aug")
+    from fold.bc import load as load_data, VARIANTS
+    O, _, _ = load_data(VARIANTS[base][0])
     ac = ActorCritic(O.shape[1]).to(device)
     ac.o_mu.copy_(torch.tensor(O.mean(0))); ac.o_sd.copy_(torch.tensor(O.std(0) + 1e-3))
     opt = torch.optim.Adam(ac.parameters(), lr=1e-4)

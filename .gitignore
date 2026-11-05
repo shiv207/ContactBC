@@ -24,3 +24,7 @@ data/fold_augmented/
 !outputs/fold_results.json
 !outputs/fold_phases.json
 !outputs/fold_rl_curve_s*.json
+data/_old/
+data/fold_dart/
+data/fold_self_r*/
+data/fold_recovery/

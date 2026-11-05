@@ -1,9 +1,16 @@
-Cloth folding: 50 held-out rollouts per training seed (mean ± std over the seeds listed).
+Cloth folding: held-out rollouts per training seed (mean ± std over seeds).
 
-| variant | success | folded | grasp held (frac. of transport) | final corner error | per-seed |
-|---|---|---|---|---|---|
-| `plain` | **0 ± 0%** | 0 ± 0% | 0.03 | 20.2 cm | 0/50, 0/50, 0/50 |
-| `aug` | **11 ± 2%** | 12 ± 2% | 0.52 | 15.0 cm | 5/50, 5/50, 7/50 |
-| `aug+cg` | **11 ± 6%** | 11 ± 6% | 0.57 | 13.5 cm | 5/50, 9/50, 2/50 |
-| `aug+rlv1` | **6 ± 0%** | 6 ± 0% | 0.54 | 16.4 cm | 3/50 |
-| `aug+rl` | **14 ± 4%** | 14 ± 4% | 0.52 | 15.4 cm | 10/50, 5/50, 6/50 |
+| variant | success | folded | cloth never thrown | grasp held (frac. of transport) | final corner error | per-seed |
+|---|---|---|---|---|---|---|
+| `dart` | **79 ± 4%** | 81 ± 3% | 97 ± 3% | 0.92 | 3.4 cm | 42/50, 37/50, 40/50 |
+| `dart+sub` | **64 ± 4%** | 65 ± 4% | 99 ± 2% | 0.86 | 4.7 cm | 31/50, 30/50, 35/50 |
+| `dart+sub-ki` | **77 ± 5%** | 80 ± 4% | 99 ± 1% | 0.88 | 3.9 cm | 35/50, 41/50, 40/50 |
+| `dart+sub-t` | **65 ± 5%** | 65 ± 5% | 98 ± 2% | 0.89 | 4.7 cm | 32/50, 36/50, 30/50 |
+| `dart+rel` | **75 ± 2%** | 77 ± 3% | 91 ± 2% | 0.90 | 3.7 cm | 36/50, 39/50, 38/50 |
+| `dart+rel+self` | **80 ± 2%** | 83 ± 2% | 95 ± 2% | 0.95 | 2.9 cm | 40/50, 39/50, 41/50 |
+| `dart+rel+self2` | **81 ± 4%** | 85 ± 2% | 95 ± 1% | 0.94 | 3.1 cm | 43/50, 41/50, 38/50 |
+| `dart+rel+self2+q` | **72 ± 9%** | 75 ± 8% | 95 ± 2% | 0.94 | 3.1 cm | 37/50, 30/50, 41/50 |
+| `ens:dart` | **79 ± 0%** | 81 ± 0% | 100 ± 0% | 0.92 | 3.0 cm | 118/150 |
+| `ens:dart+rel+self2` | **78 ± 0%** | 79 ± 0% | 93 ± 0% | 0.91 | 2.9 cm | 117/150 |
+| `dart+rel+self2+rec` | **84 ± 6%** | 85 ± 7% | 96 ± 2% | 0.93 | 2.7 cm | 41/50, 46/50, 39/50 |
+| `ens:dart+rel+self2+rec` | **81 ± 0%** | 83 ± 0% | 95 ± 0% | 0.91 | 3.2 cm | 122/150 |

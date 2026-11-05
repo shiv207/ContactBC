@@ -25,7 +25,7 @@ PROC = ROOT / "data/processed_fold"
 STRETCH, DWELL, N_REACH, N_RETREAT = 2.0, 10, 40, 30
 HOVER = 0.03                    # grasp-site height above the cloth when grasping / releasing
 CLEAR = 0.10                    # min mid-transport lift (the near half must flip over the far half)
-HOME = {"left": np.array([0.22, 0.30, 1.0]), "right": np.array([0.22, -0.30, 1.0])}
+HOME = {"left": np.array([0.30, 0.22, 0.95]), "right": np.array([0.30, -0.22, 0.95])}   # ready pose ~17 cm above the cloth
 
 
 def detect_strokes(w, up=0.03, rest=0.012):

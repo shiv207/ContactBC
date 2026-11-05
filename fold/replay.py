@@ -12,12 +12,15 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from fold.scene import FoldScene, make_ik, SIDES, R_DOWN, CLOTH_XY   # noqa: E402
+from fold.scene import FoldScene, make_ik, SIDES, R_DOWN, CLOTH_XY, NAT   # noqa: E402
 from fold.retarget import build_plans, HOME, HOVER                     # noqa: E402
+from scene import TABLE_Z                                               # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 DEMOS = ROOT / "data/fold_demos"
 SETTLE = 20
+K_POST = 0.02
+MAX_LIFT, MAX_SPEED = 0.30, 2.5     # reject demos that fling the cloth (m above table, m/s)
 _W = {}
 
 
@@ -28,18 +31,29 @@ def obs_vec(s):
 
 def home_q(s, ik):
     if "home" not in _W:
-        _W["home"] = {sd: ik[sd].solve(HOME[sd], R_DOWN, q0=np.zeros(7), iters=300)[0] for sd in SIDES}
+        home = {}
+        for sd in SIDES:                  # walk smoothly from the natural posture to HOME (no IK branch jumps)
+            q = NAT[sd].copy()
+            for _ in range(80):
+                q, _e = ik[sd].track(HOME[sd], R_DOWN, q, NAT[sd], k_post=K_POST)
+            home[sd] = q
+        _W["home"] = home
     return _W["home"]
 
 
-def run_episode(s, ik, plan, cloth_xy=CLOTH_XY, yaw=0.0, rec=None):
+def run_episode(s, ik, plan, cloth_xy=CLOTH_XY, yaw=0.0, rec=None, noise=0.0, rng=None):
+    """noise > 0: DART-style data collection. Smooth random offsets (std `noise` rad) are added to the executed
+    arm targets, while the expert re-solves from the arm's ACTUAL joint angles and the clean expert action is
+    what gets logged -- so the demos contain corrections back to the plan, not just perfect trajectories."""
     s.reset(cloth_xy, yaw, arm_q=home_q(s, ik))
     c = s.corners()
     grasp = {"left": c[0] + [0, 0, HOVER], "right": c[1] + [0, 0, HOVER]}
     place = {"left": c[2] + [0, 0, HOVER + 0.01], "right": c[3] + [0, 0, HOVER + 0.01]}
     tg = plan.wrist_targets(grasp, place)
     q = dict(home_q(s, ik))
-    log = {k: [] for k in ["obs", "action", "grasp", "fold_err"]}
+    log = {k: [] for k in ["obs", "action", "grasp", "fold_err", "cloth_top", "cloth_low", "cloth_speed"]}
+    v_prev = s.verts()
+    off = np.zeros(14)
     for k in range(plan.T + SETTLE):
         kk = min(k, plan.T - 1)
         if plan.k_grasp <= kk < plan.k_release - 10:      # re-aim at the far corners' current positions
@@ -51,16 +65,26 @@ def run_episode(s, ik, plan, cloth_xy=CLOTH_XY, yaw=0.0, rec=None):
                 tg[sd][kk:] = tg2[sd][kk:]
         a = []
         for sd in SIDES:
-            q[sd], _ = ik[sd].solve(tg[sd][kk], R_DOWN, q0=q[sd], iters=30)
+            if noise > 0:
+                q[sd] = s.data.qpos[s.arm_q[sd]].copy()          # expert corrects from where the arm really is
+            q[sd], _ = ik[sd].track(tg[sd][kk], R_DOWN, q[sd], NAT[sd], k_post=K_POST)
             a += [q[sd], plan.hand[sd][kk]]
         a = s.clip_action(np.concatenate(a))
         log["obs"].append(obs_vec(s)); log["action"].append(a)
-        s.step(a)
+        if noise > 0:
+            off = 0.9 * off + np.sqrt(1 - 0.9 ** 2) * noise * rng.standard_normal(14)
+            ex = a.copy(); ex[np.r_[0:7, 14:21]] += off
+            s.step(s.clip_action(ex))
+        else:
+            s.step(a)
         log["grasp"].append(s.grasp_state()); log["fold_err"].append(s.fold_error())
+        v = s.verts(); log["cloth_top"].append(v[:, 2].max()); log["cloth_low"].append(v[:, 2].min())
+        log["cloth_speed"].append(np.linalg.norm(v - v_prev, axis=1).max() * 30); v_prev = v
         if rec is not None:
             rec.grab()
     ep = {k: np.array(v) for k, v in log.items()}
     ep.update(label(s, plan, ep))
+    ep.update(calm_check(ep))
     ep.update(cloth_xy=np.asarray(cloth_xy), yaw=float(yaw), take=plan.name,
               k_grasp=plan.k_grasp, k_release=plan.k_release)
     return ep
@@ -75,6 +99,15 @@ def label_state(s, grasp_log, transport):
     folded = corner < 0.05 and fe < 0.07
     return dict(success=bool(folded and held >= 0.9 and released), folded=bool(folded), held=held,
                 released=released, corner_dist=corner, fold_error=fe)
+
+
+def calm_check(ep):
+    """The fold must be gentle: cloth never above MAX_LIFT, never through the table, no vertex faster than
+    MAX_SPEED. Without this, flung-cloth episodes that happened to land folded counted as demos."""
+    top = float(ep["cloth_top"].max() - TABLE_Z); low = float(ep["cloth_low"].min() - TABLE_Z)
+    sp = float(ep["cloth_speed"].max())
+    calm = top < MAX_LIFT and low > -0.02 and sp < MAX_SPEED
+    return dict(calm=calm, cloth_lift=top, success=bool(ep["success"] and calm))
 
 
 def label(s, plan, ep):
@@ -95,7 +128,7 @@ def _replay(name, gif=False):
         rec.save(ROOT / f"outputs/gifs/fold_replay_{name}_{'success' if ep['success'] else 'fail'}.gif")
         rec.r.close()
     return name, {k: (bool(ep[k]) if isinstance(ep[k], (bool, np.bool_)) else round(float(ep[k]), 3))
-                  for k in ["success", "folded", "held", "released", "corner_dist", "fold_error"]}
+                  for k in ["success", "folded", "held", "released", "corner_dist", "fold_error", "calm", "cloth_lift"]}
 
 
 if __name__ == "__main__":

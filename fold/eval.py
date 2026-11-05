@@ -40,19 +40,22 @@ def make_actor(pol):
 
 def rollout(i, gif=False, log_feats=False):
     from fold.augment import sample_pose
-    from fold.replay import obs_vec, home_q, label_state
+    from fold.replay import obs_vec, home_q, label_state, calm_check
     from scene import Recorder
     s, ik = _W["s"], _W["ik"]
     xy, yaw = sample_pose(np.random.default_rng(EVAL_SEED * 1000 + i))
     s.reset(xy, yaw, arm_q=home_q(s, ik))
     act = make_actor(_W["pol"])
     rec = Recorder(s) if gif else None
-    G, F = [], []
+    G, F, top, low, spd, sub = [], [], [], [], [], []
+    v_prev = s.verts()
     for t in range(H):
         o = obs_vec(s)
         a = s.clip_action(act(o, t))
         s.step(a)
-        G.append(s.grasp_state())
+        G.append(s.grasp_state()); sub.append(getattr(_W["pol"], "last_sub", -1))
+        v = s.verts(); top.append(v[:, 2].max()); low.append(v[:, 2].min())
+        spd.append(np.linalg.norm(v - v_prev, axis=1).max() * 30); v_prev = v
         if log_feats:
             F.append(robot_features(s, a))
         if rec:
@@ -62,14 +65,24 @@ def rollout(i, gif=False, log_feats=False):
     held_any = np.flatnonzero(G.max(1) > 0)
     tr = slice(held_any[0], held_any[-1] + 1) if len(held_any) else slice(0, 0)
     r = label_state(s, G, tr)
+    r.update(calm_check(dict(success=r["success"], cloth_top=np.array(top), cloth_low=np.array(low),
+                             cloth_speed=np.array(spd))))      # flung cloth = failure, even if it lands folded
     r = {k: (bool(v) if isinstance(v, (bool, np.bool_)) else float(v)) for k, v in r.items()}
     if not len(held_any):
         r["held"] = 0.0; r["success"] = False
     if rec:
-        tag = _W["variant"].replace("+", "_")
+        tag = _W["variant"].replace("+", "_").replace(":", "_")
         rec.save(ROOT / f"outputs/gifs/fold_eval_{tag}_{i:02d}_{'success' if r['success'] else 'fail'}.gif")
         rec.r.close()
     out = dict(i=i, **r)
+    if sub[0] >= 0:        # hierarchical policy: run-length trace of its own subtask predictions [[id, steps], ...]
+        rl = [[sub[0], 0]]
+        for x in sub:
+            if x == rl[-1][0]:
+                rl[-1][1] += 1
+            else:
+                rl.append([x, 1])
+        out["subtasks"] = rl
     if log_feats:
         out["feats"] = np.array(F).tolist()
     return out
@@ -104,27 +117,32 @@ if __name__ == "__main__":
     ap.add_argument("--variants", nargs="+", default=["plain", "aug", "aug+cg", "aug+rlv1", "aug+rl"])
     ap.add_argument("--seeds", type=int, nargs="+", default=[0, 1, 2])
     ap.add_argument("-n", type=int, default=50)
+    ap.add_argument("--fresh", action="store_true", help="discard earlier results instead of merging")
     a = ap.parse_args()
-    rows, allr = [], {}
+    out_json = ROOT / "outputs/fold_results.json"
+    allr = {} if a.fresh or not out_json.exists() else json.load(open(out_json))   # merge with earlier runs
     for v in a.variants:
-        ps = []
         for sd in a.seeds:
-            if not (ROOT / f"checkpoints/fold/{v}_s{sd}.pt").exists():
+            base = v[4:] if v.startswith("ens:") else v
+            if not (ROOT / f"checkpoints/fold/{base}_s{sd}.pt").exists():
                 continue                                   # e.g. RL was trained for seed 0 only
             res = evaluate(v, sd, a.n, gifs=(sd == a.seeds[0]))
             allr[f"{v}_s{sd}"] = res
-            ps.append({k: float(np.mean([r[k] for r in res])) for k in ["success", "folded", "held", "corner_dist"]})
-            print(f"{v:8s} seed {sd}: success {ps[-1]['success']:.0%} folded {ps[-1]['folded']:.0%} "
-                  f"corner {100 * ps[-1]['corner_dist']:.1f} cm", flush=True)
-        rows.append((v, ps))
+            m = {k: float(np.mean([r[k] for r in res])) for k in ["success", "folded", "corner_dist", "calm"]}
+            print(f"{v:8s} seed {sd}: success {m['success']:.0%} folded {m['folded']:.0%} "
+                  f"corner {100 * m['corner_dist']:.1f} cm  calm {m['calm']:.0%}", flush=True)
+    rows = {}
+    for key, res in allr.items():
+        rows.setdefault(key.rsplit("_s", 1)[0], []).append(
+            {k: float(np.mean([r[k] for r in res])) for k in ["success", "folded", "held", "corner_dist", "calm"]} | {"n": len(res)})
     f = lambda xs: f"{100 * np.mean(xs):.0f} ± {100 * np.std(xs):.0f}%"
-    lines = [f"Cloth folding: {a.n} held-out rollouts per training seed (mean ± std over the seeds listed).", "",
-             "| variant | success | folded | grasp held (frac. of transport) | final corner error | per-seed |",
-             "|---|---|---|---|---|---|"]
-    for v, ps in rows:
+    lines = ["Cloth folding: held-out rollouts per training seed (mean ± std over seeds).", "",
+             "| variant | success | folded | cloth never thrown | grasp held (frac. of transport) | final corner error | per-seed |",
+             "|---|---|---|---|---|---|---|"]
+    for v, ps in rows.items():
         lines.append(f"| `{v}` | **{f([p['success'] for p in ps])}** | {f([p['folded'] for p in ps])} | "
-                     f"{np.mean([p['held'] for p in ps]):.2f} | {100 * np.mean([p['corner_dist'] for p in ps]):.1f} cm | "
-                     f"{', '.join(str(round(a.n * p['success'])) + '/' + str(a.n) for p in ps)} |")
+                     f"{f([p['calm'] for p in ps])} | {np.mean([p['held'] for p in ps]):.2f} | {100 * np.mean([p['corner_dist'] for p in ps]):.1f} cm | "
+                     f"{', '.join(str(round(p['n'] * p['success'])) + '/' + str(p['n']) for p in ps)} |")
     (ROOT / "outputs/fold_results.md").write_text("\n".join(lines) + "\n")
-    json.dump(allr, open(ROOT / "outputs/fold_results.json", "w"))
+    json.dump(allr, open(out_json, "w"))
     print("\n".join(lines))

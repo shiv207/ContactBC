@@ -39,6 +39,39 @@ class ArmIK:
                     q, e = q2, e2
         return q, e
 
+    def track(self, pos, R, q_prev, q_nat, iters=15, max_step=0.06, k_post=0.15, axis_only=True):
+        """Continuous IK for trajectory following: warm start from q_prev (no random restarts, so the arm can
+        never jump to another IK branch), null-space pull toward a natural posture q_nat, and every joint
+        moves at most max_step rad per call (0.06 rad per 1/30 s step = 1.8 rad/s).
+        axis_only: only the site's x axis (the finger direction) must match R's x axis; the twist about the
+        fingers is left free for the posture term (forcing it pinned the G1 wrist roll at its joint limit)."""
+        s, m, d = self.s, self.m, self.d
+        d.qpos[:] = s.data.qpos
+        d.qpos[self.qadr] = q_prev
+        jp, jr = np.zeros((3, m.nv)), np.zeros((3, m.nv))
+        I = np.eye(7)
+        for _ in range(iters):
+            mujoco.mj_kinematics(m, d); mujoco.mj_comPos(m, d)
+            q = d.qpos[self.qadr]
+            mujoco.mj_jacSite(m, d, jp, jr, self.site)
+            err = pos - d.site_xpos[self.site]; J = jp[:, self.dadr]
+            if R is not None:
+                Rc = d.site_xmat[self.site].reshape(3, 3)
+                if axis_only:
+                    x = Rc[:, 0]; P = np.eye(3) - np.outer(x, x)
+                    er, Jr = np.cross(x, R[:, 0]), P @ jr[:, self.dadr]
+                else:
+                    er, Jr = quat_err(R, Rc), jr[:, self.dadr]
+                err = np.r_[err, self.rw * er]
+                J = np.r_[J, self.rw * Jr]
+            Jp = J.T @ np.linalg.inv(J @ J.T + self.lam * np.eye(len(err)))
+            dq = Jp @ err + (I - Jp @ J) @ (k_post * (q_nat - q))
+            q = np.clip(q + dq, self.lo, self.hi)
+            q = q_prev + np.clip(q - q_prev, -max_step, max_step)
+            d.qpos[self.qadr] = q
+        mujoco.mj_kinematics(m, d)
+        return d.qpos[self.qadr].copy(), float(np.linalg.norm(pos - d.site_xpos[self.site]))
+
     def _solve(self, pos, R=None, q0=None, iters=60, tol=1e-3):
         s, m, d = self.s, self.m, self.d
         d.qpos[:] = s.data.qpos

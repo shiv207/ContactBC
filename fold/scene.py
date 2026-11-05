@@ -25,7 +25,9 @@ HAND = {s: [f"{s}_hand_{j}_joint" for j in ["thumb_0", "thumb_1", "thumb_2", "in
                                               "middle_0", "middle_1"]] for s in SIDES}
 CLOSE_R = np.array([0.0, -0.6, -0.9, 0.9, 0.9, 0.9, 0.9])     # pinch posture, right hand
 CLOSE = {"right": CLOSE_R, "left": -CLOSE_R}                    # left hand is the mirror (all signs flip)
-TIP = [0.205, 0.0, 0.0]                                         # grasp site: between index/middle tips
+TIP = [0.205, 0.0, 0.0]      # grasp site: between index/middle tips
+ARM_IDX = np.r_[0:7, 14:21]                                     # arm joints inside the 28-dim action
+MAX_ARM_STEP = 0.06                                             # joint-target rate limit, rad per 1/30 s
 
 
 def make_ik(scene):
@@ -34,7 +36,7 @@ def make_ik(scene):
     from ik import ArmIK
     iks = {}
     for i, sd in enumerate(SIDES):
-        k = ArmIK(scene, joints=ARM[sd], site=f"grasp_{sd}")
+        k = ArmIK(scene, rot_weight=0.3, joints=ARM[sd], site=f"grasp_{sd}")
         if sd == "right":
             k.hi[1] = min(k.hi[1], -0.05)
         else:
@@ -48,6 +50,8 @@ def _ry(a):
     return np.array([[c, 0, s], [0, 1, 0], [-s, 0, c]])
 
 
+NAT_R = np.array([0.0, -0.3, 0.0, -0.6, 0.0, 0.0, 0.0])    # natural relaxed arm posture (IK null-space target)
+NAT = {"right": NAT_R, "left": NAT_R * np.array([1, -1, -1, 1, -1, 1, -1])}   # mirrored
 R_DOWN = _ry(np.radians(45))              # fingers pitched 45 deg down at the cloth (reachable x 0.20-0.44)
 
 
@@ -142,6 +146,9 @@ class FoldScene:
     def step(self, action):
         """action: 28 joint targets [left arm 7, left hand 7, right arm 7, right hand 7]."""
         d = self.data
+        action = np.array(action, dtype=float)
+        prev = d.ctrl[self.u]
+        action[ARM_IDX] = prev[ARM_IDX] + np.clip(action[ARM_IDX] - prev[ARM_IDX], -MAX_ARM_STEP, MAX_ARM_STEP)
         d.ctrl[self.u] = action
         for i, s in enumerate(SIDES):
             c = self.closure(s, action[14 * i + 7:14 * i + 14])
