@@ -12,9 +12,13 @@ Submission for "Teach a Humanoid With Your Own Hands".
 
 The source human video that drives the robot, shown as GIFs.
 
-| human demo 1 | human demo 2 |
-|---|---|
-| ![](data/sample/ezgif-318cd6d514d1aad8.gif) | ![](data/sample/ezgif-3aa61bae9eff255f.gif) |
+Human demo 1:
+
+![](data/sample/ezgif-318cd6d514d1aad8.gif)
+
+Human demo 2:
+
+![](data/sample/ezgif-3aa61bae9eff255f.gif)
 
 ## Contents
 - [Overview](#overview)
