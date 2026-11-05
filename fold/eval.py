@@ -22,7 +22,7 @@ def _init(variant, seed):
     torch.set_num_threads(1)
     from fold.scene import FoldScene, make_ik
     _W["s"] = FoldScene(); _W["ik"] = make_ik(_W["s"]); _W["variant"] = variant
-    if variant.endswith("+rl"):
+    if "+rl" in variant:
         from fold.rl import load_rl
         _W["pol"] = load_rl(variant, seed)
     else:
@@ -85,7 +85,7 @@ def robot_features(s, a):
         w = d.xpos[s.model.body(f"{sd}_wrist_yaw_link").id]
         th = d.xpos[s.model.body(f"{sd}_hand_thumb_2_link").id]; ix = d.xpos[s.model.body(f"{sd}_hand_index_1_link").id]
         f += [*w, w[2] - TABLE_Z, np.linalg.norm(th - ix)]
-    return f
+    return f + list(s.grasp_state())
 
 
 def evaluate(variant, seed, n=50, workers=20, gifs=False):
@@ -101,7 +101,7 @@ def evaluate(variant, seed, n=50, workers=20, gifs=False):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--variants", nargs="+", default=["plain", "aug", "aug+cg", "aug+rl"])
+    ap.add_argument("--variants", nargs="+", default=["plain", "aug", "aug+cg", "aug+rlv1", "aug+rl"])
     ap.add_argument("--seeds", type=int, nargs="+", default=[0, 1, 2])
     ap.add_argument("-n", type=int, default=50)
     a = ap.parse_args()
@@ -109,6 +109,8 @@ if __name__ == "__main__":
     for v in a.variants:
         ps = []
         for sd in a.seeds:
+            if not (ROOT / f"checkpoints/fold/{v}_s{sd}.pt").exists():
+                continue                                   # e.g. RL was trained for seed 0 only
             res = evaluate(v, sd, a.n, gifs=(sd == a.seeds[0]))
             allr[f"{v}_s{sd}"] = res
             ps.append({k: float(np.mean([r[k] for r in res])) for k in ["success", "folded", "held", "corner_dist"]})
@@ -116,7 +118,7 @@ if __name__ == "__main__":
                   f"corner {100 * ps[-1]['corner_dist']:.1f} cm", flush=True)
         rows.append((v, ps))
     f = lambda xs: f"{100 * np.mean(xs):.0f} ± {100 * np.std(xs):.0f}%"
-    lines = [f"Cloth folding: {a.n} held-out rollouts per seed, mean ± std over {len(a.seeds)} seeds.", "",
+    lines = [f"Cloth folding: {a.n} held-out rollouts per training seed (mean ± std over the seeds listed).", "",
              "| variant | success | folded | grasp held (frac. of transport) | final corner error | per-seed |",
              "|---|---|---|---|---|---|"]
     for v, ps in rows:

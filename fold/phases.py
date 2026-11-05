@@ -68,10 +68,16 @@ def robot_sequences(variant, seed=0, n=50):
         res = pool.starmap(E.rollout, [(i, False, True) for i in range(n)])
     out = []
     for r in res:
-        F = np.array(r.pop("feats"))              # per hand: wrist xyz, height, thumb-index distance
+        F = np.array(r.pop("feats"))              # per hand: wrist xyz, height, thumb-index distance; grasp flags
         w = {s: F[:, 5 * k:5 * k + 3] for k, s in enumerate(SIDES)}
         ap = {s: F[:, 5 * k + 4] for k, s in enumerate(SIDES)}
-        out.append((feats(w, ap, time_scale=STRETCH), r["success"]))
+        G = F[:, 10:12].max(1)
+        Fr = feats(w, ap, time_scale=STRETCH)
+        held = np.flatnonzero(G > 0)
+        if len(held):                             # same window as the human strokes: +-1 human-second
+            c = int(CTX * STRETCH)                # around the (first grasp, last release)
+            Fr = Fr[max(0, held[0] - c):held[-1] + c + 1]
+        out.append((Fr[::int(STRETCH)], r["success"], bool(len(held))))   # back to human frame rate
     return out
 
 
@@ -155,14 +161,14 @@ if __name__ == "__main__":
     examples = {}
     for v in args.variants:
         rs = robot_sequences(v, 0, args.n)
-        Fr = np.concatenate([F for F, _ in rs])
+        Fr = np.concatenate([F for F, _, _ in rs])
         mu_r, sd_r = Fr.mean(0), Fr.std(0) + 1e-6
         rows = []
-        for F, ok in rs:
+        for F, ok, grasped in rs:
             Fz = Z(F).copy()
             Fz[:, 2] = (F[:, 2] - mu_r[2]) / sd_r[2]   # aperture units differ (Dex3 vs human): z-score per source
             z = hmm.predict(Fz)
-            rows.append((ok, all(order_checks(z)), np.bincount(z, minlength=K) / len(z), len(collapse(z))))
+            rows.append((ok, grasped and all(order_checks(z)), np.bincount(z, minlength=K) / len(z), len(collapse(z))))
             examples.setdefault(v, []).append((z, ok))
         okm = np.array([r[0] for r in rows]); fol = np.array([r[1] for r in rows])
         frac = np.mean([r[2] for r in rows], 0)
@@ -172,8 +178,14 @@ if __name__ == "__main__":
                    success_given_follow=float(okm[fol].mean()) if fol.any() else None,
                    success_given_not_follow=float(okm[~fol].mean()) if (~fol).any() else None,
                    n_segments=float(np.mean([r[3] for r in rows])),
+                   lifted_frac_success=float(np.mean([r[2][lifted] for r in rows if r[0]])) if okm.any() else None,
+                   lifted_frac_fail=float(np.mean([r[2][lifted] for r in rows if not r[0]])) if (~okm).any() else None,
+                   low_frac_success=float(np.mean([sum(r[2][x] for x in low) for r in rows if r[0]])) if okm.any() else None,
+                   low_frac_fail=float(np.mean([sum(r[2][x] for x in low) for r in rows if not r[0]])) if (~okm).any() else None,
                    time_fraction={names[s]: float(frac[s]) for s in range(K)})
         report["robot"][v] = out
+        print(f"    {v}: time in 'lifted' state: successes {out['lifted_frac_success']:.2f} vs failures "
+              f"{out['lifted_frac_fail']:.2f}; time in low states: {out['low_frac_success']:.2f} vs {out['low_frac_fail']:.2f}")
         print(f"(c) {v}: success {out['success']:.0%}; follows human order (pinch-before-lift & open-after) {out['follow_all']:.0%} "
               f"(successes {out['follow_given_success']}, failures {out['follow_given_fail']}); "
               f"P(success|follows) {out['success_given_follow']}, P(success|not) {out['success_given_not_follow']}")
