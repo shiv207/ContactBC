@@ -16,9 +16,6 @@ Human demo 1:
 
 ![](data/sample/ezgif-318cd6d514d1aad8.gif)
 
-Human demo 2:
-
-![](data/sample/ezgif-3aa61bae9eff255f.gif)
 
 ## Contents
 - [Overview](#overview)
